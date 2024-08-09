@@ -4,11 +4,10 @@ import gg.jte.Content;
 import gg.jte.ContentType;
 import gg.jte.TemplateEngine;
 import gg.jte.TemplateOutput;
+import gg.jte.compiler.ClassUtils;
 import gg.jte.output.PrintWriterOutput;
-import gg.jte.output.WriterOutput;
 import gg.jte.resolve.DirectoryCodeResolver;
 import jakarta.annotation.PostConstruct;
-import jakarta.el.ELContext;
 import jakarta.el.ExpressionFactory;
 import jakarta.el.StandardELContext;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -17,12 +16,13 @@ import jakarta.inject.Inject;
 import jakarta.mvc.engine.ViewEngineContext;
 import jakarta.mvc.engine.ViewEngineException;
 import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpServletRequest;
 import org.eclipse.krazo.engine.ViewEngineBase;
 
 import java.io.File;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,6 +34,9 @@ public class JteViewEngine extends ViewEngineBase {
     @Inject
     BeanManager beanManager;
 
+    @Inject
+    HttpServletRequest request;
+
     private TemplateEngine templateEngine;
 
     @PostConstruct
@@ -44,6 +47,31 @@ public class JteViewEngine extends ViewEngineBase {
         classDir.mkdir();
         var codeResolver = new DirectoryCodeResolver(Path.of(root));
         this.templateEngine=TemplateEngine.create(codeResolver, classDir.toPath(), ContentType.Html, this.getClass().getClassLoader());
+        addApiClasspath();
+    }
+
+    private void addApiClasspath() {
+        if (System.getProperty("com.sun.aas.instanceRoot") != null) {
+            // we're on Payara / Glassfish, we need to add the possible runtime directories to compiler classpath
+            var classpath = new ArrayList<String>();
+            ClassUtils.resolveClasspathFromClassLoader(this.getClass().getClassLoader(), classpath::add);
+            var microRuntime = new File(System.getProperty("com.sun.aas.instanceRoot"), "runtime");
+            addJars(microRuntime, classpath);
+            var modules = new File(System.getProperty("com.sun.aas.instanceRoot"), "modules");
+            addJars(modules, classpath);
+            templateEngine.setClassPath(classpath);
+        }
+    }
+
+    private static void addJars(File libDirectory, ArrayList<String> classpath) {
+        if (libDirectory.exists()) {
+            libDirectory.list((dir, name) -> {
+                if (name.endsWith(".jar")) {
+                    classpath.add(new File(libDirectory, name).getAbsolutePath());
+                }
+                return false;
+            });
+        }
     }
 
     @Override
@@ -80,6 +108,10 @@ public class JteViewEngine extends ViewEngineBase {
         for (var entry : params.entrySet()) {
             if ("content".equals(entry.getKey())) {
                 inputs.put("content", content);
+                continue;
+            }
+            if ("request".equals(entry.getKey())) {
+                inputs.put("request", request);
                 continue;
             }
             var modelInput = models.get(entry.getKey(), entry.getValue());
