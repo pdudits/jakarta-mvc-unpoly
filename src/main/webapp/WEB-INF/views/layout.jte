@@ -1,20 +1,22 @@
 @param gg.jte.Content content
+@param jakarta.servlet.http.HttpServletRequest request
 @param io.zeromagic.unpolydemo.endpoint.Page page
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="color-scheme" content="light dark" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
     <title>${page.getTitle()}</title>
-    <meta name="description" content="A pure HTML example, without dependencies." />
+    <meta name="description" content="A pure HTML example, without dependencies.">
 
     <!-- Pico.css -->
-    <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.0.6/css/pico.min.css"
-    />
+    <link rel="stylesheet"
+            href="${request.getContextPath()}/webjars/picocss__pico/2.0.6/css/pico.min.css">
+    <!-- Unpoly -->
+    <script src="${request.getContextPath()}/webjars/unpoly/3.7.3/unpoly.min.js" defer></script>
+    <link rel="stylesheet" href="${request.getContextPath()}/webjars/unpoly/3.7.3/unpoly.min.css">
 </head>
 <body>
 <!-- Header -->
@@ -26,8 +28,7 @@
     <nav>
     </nav>
 </header>
-<main class="container">${content}
-</main>
+<main class="container">${content}</main>
 <footer class="container">
     <small>end</small>
 </footer>
