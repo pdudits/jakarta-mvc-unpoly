@@ -32,5 +32,10 @@
 <footer class="container">
     <small>end</small>
 </footer>
+<!-- hot reload - connect to sse endoint at / reload on event -->
+<script>
+    const eventSource = new EventSource('/');
+    eventSource.onmessage = () => location.reload();
+</script>
 </body>
 </html>
