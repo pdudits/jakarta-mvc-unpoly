@@ -34,9 +34,6 @@ public class JteViewEngine extends ViewEngineBase {
     @Inject
     BeanManager beanManager;
 
-    @Inject
-    HttpServletRequest request;
-
     private TemplateEngine templateEngine;
 
     @PostConstruct
@@ -47,31 +44,6 @@ public class JteViewEngine extends ViewEngineBase {
         classDir.mkdir();
         var codeResolver = new DirectoryCodeResolver(Path.of(root));
         this.templateEngine=TemplateEngine.create(codeResolver, classDir.toPath(), ContentType.Html, this.getClass().getClassLoader());
-        addApiClasspath();
-    }
-
-    private void addApiClasspath() {
-        if (System.getProperty("com.sun.aas.instanceRoot") != null) {
-            // we're on Payara / Glassfish, we need to add the possible runtime directories to compiler classpath
-            var classpath = new ArrayList<String>();
-            ClassUtils.resolveClasspathFromClassLoader(this.getClass().getClassLoader(), classpath::add);
-            var microRuntime = new File(System.getProperty("com.sun.aas.instanceRoot"), "runtime");
-            addJars(microRuntime, classpath);
-            var modules = new File(System.getProperty("com.sun.aas.instanceRoot"), "modules");
-            addJars(modules, classpath);
-            templateEngine.setClassPath(classpath);
-        }
-    }
-
-    private static void addJars(File libDirectory, ArrayList<String> classpath) {
-        if (libDirectory.exists()) {
-            libDirectory.list((dir, name) -> {
-                if (name.endsWith(".jar")) {
-                    classpath.add(new File(libDirectory, name).getAbsolutePath());
-                }
-                return false;
-            });
-        }
     }
 
     @Override
@@ -108,10 +80,6 @@ public class JteViewEngine extends ViewEngineBase {
         for (var entry : params.entrySet()) {
             if ("content".equals(entry.getKey())) {
                 inputs.put("content", content);
-                continue;
-            }
-            if ("request".equals(entry.getKey())) {
-                inputs.put("request", request);
                 continue;
             }
             var modelInput = models.get(entry.getKey(), entry.getValue());

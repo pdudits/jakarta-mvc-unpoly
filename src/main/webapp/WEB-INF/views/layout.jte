@@ -13,10 +13,10 @@
 
     <!-- Pico.css -->
     <link rel="stylesheet"
-            href="${request.getContextPath()}/webjars/picocss__pico/2.0.6/css/pico.min.css">
+            href="${page.contextPath()}/webjars/picocss__pico/2.0.6/css/pico.min.css">
     <!-- Unpoly -->
-    <script src="${request.getContextPath()}/webjars/unpoly/3.7.3/unpoly.min.js" defer></script>
-    <link rel="stylesheet" href="${request.getContextPath()}/webjars/unpoly/3.7.3/unpoly.min.css">
+    <script src="${page.contextPath()}/webjars/unpoly/3.7.3/unpoly.min.js" defer></script>
+<%--    <link rel="stylesheet" href="${page.contextPath()}/webjars/unpoly/3.7.3/unpoly.min.css">--%>
 </head>
 <body>
 <!-- Header -->
