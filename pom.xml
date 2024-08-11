@@ -70,7 +70,7 @@
         <dependency>
             <groupId>org.webjars.npm</groupId>
             <artifactId>unpoly</artifactId>
-            <version>3.7.3</version> <!-- upgrade to 3.8.0 -->
+            <version>3.8.0</version>
         </dependency>
     </dependencies>
 
