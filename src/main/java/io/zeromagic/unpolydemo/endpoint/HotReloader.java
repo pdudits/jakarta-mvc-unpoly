@@ -72,7 +72,7 @@ public class HotReloader {
     }
 
     public void register(SseEventSink sink) {
-        broadcaster.register(sink, UUID.randomUUID(), TemplateUpdatedEvent.class);
+        broadcaster.register(sink, null, TemplateUpdatedEvent.class);
     }
 
     class Watcher implements Runnable {
