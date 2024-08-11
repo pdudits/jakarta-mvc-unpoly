@@ -1,20 +1,23 @@
 package io.zeromagic.unpolydemo.endpoint;
 
+import io.zeromagic.unpolydemo.sse.BroadcastEvent;
+import io.zeromagic.unpolydemo.sse.Broadcaster;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletContext;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.sse.OutboundSseEvent;
 import jakarta.ws.rs.sse.Sse;
-import jakarta.ws.rs.sse.SseBroadcaster;
 import jakarta.ws.rs.sse.SseEventSink;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.WatchService;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import static java.nio.file.StandardWatchEventKinds.ENTRY_CREATE;
@@ -28,15 +31,39 @@ public class HotReloader {
     @Inject
     ServletContext context;
 
-    private SseBroadcaster broadcaster;
-    private OutboundSseEvent.Builder eventBuilder;
+    @Inject
+    Broadcaster broadcaster;
+
+    @Inject
+    Event<TemplateUpdatedEvent> templateUpdated;
+
+    public record TemplateUpdatedEvent(String path) implements BroadcastEvent {
+        @Override
+        public UUID objectId() {
+            return null;
+        }
+
+        @Override
+        public boolean terminalEvent() {
+            return false;
+        }
+
+        @Override
+        public OutboundSseEvent toSseEvent(OutboundSseEvent.Builder eventBuilder) {
+            return eventBuilder.data(path).build();
+        }
+    }
+
     private volatile boolean running = true;
 
     @PostConstruct
     void init() {
-        this.broadcaster = sse.newBroadcaster();
-        this.eventBuilder = sse.newEventBuilder();
-        watch();
+        var root = Path.of(context.getRealPath("/WEB-INF/views"));
+        try {
+            new Thread(new Watcher(root)).start();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @PreDestroy
@@ -45,16 +72,7 @@ public class HotReloader {
     }
 
     public void register(SseEventSink sink) {
-        broadcaster.register(sink);
-    }
-
-    private void watch() {
-        var root = Path.of(context.getRealPath("/WEB-INF/views"));
-        try {
-            new Thread(new Watcher(root)).start();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        broadcaster.register(sink, UUID.randomUUID(), TemplateUpdatedEvent.class);
     }
 
     class Watcher implements Runnable {
@@ -88,7 +106,7 @@ public class HotReloader {
                         if (Files.isDirectory(fullPath)) {
                             register(fullPath);
                         } else {
-                            broadcaster.broadcast(eventBuilder.data(path.toString()).build());
+                            templateUpdated.fire(new TemplateUpdatedEvent(path.toString()));
                         }
                     });
                     key.reset();
