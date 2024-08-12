@@ -80,8 +80,10 @@
 </div>
 <!-- hot reload - connect to sse endoint at / reload on event -->
 <script>
-    const eventSource = new EventSource('/');
+{
+    let eventSource = new EventSource('/');
     eventSource.onmessage = () => location.reload();
+}
 </script>
 </body>
 </html>
