@@ -49,6 +49,6 @@ public class DefaultServletMappings implements ServletContextListener {
         // override JAX-RS Application mappings for known static files.
         // default servlet is technically not present in bundle model until startup, so it cannot be redefined in web.xml
         var defaultMapping = sce.getServletContext().getServletRegistrations().get("default");
-        defaultMapping.addMapping("/webjars/*");
+        defaultMapping.addMapping("/webjars/*", "/css/*", "/js/*", "/images/*");
     }
 }
