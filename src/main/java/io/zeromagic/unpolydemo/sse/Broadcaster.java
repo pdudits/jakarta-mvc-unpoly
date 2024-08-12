@@ -4,6 +4,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
+import jakarta.enterprise.event.ObservesAsync;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.sse.OutboundSseEvent;
 import jakarta.ws.rs.sse.Sse;
@@ -12,9 +13,13 @@ import jakarta.ws.rs.sse.SseEventSink;
 
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @ApplicationScoped
 public class Broadcaster {
+  private static final Logger LOGGER = Logger.getLogger(Broadcaster.class.getName());
+
   @Context
   Sse sse;
 
@@ -52,10 +57,20 @@ public class Broadcaster {
     }
   }
 
+  void onAsyncBroadcast(@ObservesAsync BroadcastEvent event) {
+    onBroadcast(event);
+  }
+
   private void broadcast(BroadcastEvent event, SinkKey key) {
     var broadcaster = broadcasts.get(key);
     if (broadcaster != null) {
-      broadcaster.broadcast(event.toSseEvent(eventBuilder));
+      broadcaster.broadcast(event.toSseEvent(eventBuilder))
+          .whenComplete((r, t) -> {
+            if (t != null) {
+              LOGGER.log(Level.WARNING,
+                      "Error broadcasting event", t);
+            }
+          });
       if (event.terminalEvent()) {
         broadcaster.close();
         broadcasts.remove(key);

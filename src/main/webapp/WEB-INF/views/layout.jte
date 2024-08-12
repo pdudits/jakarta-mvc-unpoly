@@ -57,7 +57,7 @@
         <nav id="main-nav">
             <ul>
                 <li><a href="/app/">Application</a></li>
-                <li><a href="/app/new" role="button"
+                <li><a href="/new-app/" role="button"
                        up-layer="new"
                        up-target="#modal"
                        up-history="true">

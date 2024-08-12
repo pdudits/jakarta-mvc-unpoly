@@ -1,4 +1,4 @@
-package io.zeromagic.unpolydemo.app;
+package io.zeromagic.unpolydemo.newapp;
 
 
 import io.zeromagic.unpolydemo.endpoint.FormField;

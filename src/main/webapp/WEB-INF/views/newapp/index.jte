@@ -1,4 +1,4 @@
-@param io.zeromagic.unpolydemo.app.NewAppModel newApp
+@param io.zeromagic.unpolydemo.newapp.NewAppModel newApp
 <h2>Upload New Application</h2>
 
 <dialog id="modal" open>
@@ -9,7 +9,7 @@
       <p><strong>New Application</strong></p>
     </header>
 
-    <form up-layer="parent root" method="post">
+    <form up-layer="parent root" method="post" up-target="main">
       <label>Name
       <input type="text" id="name" name="name"
              aria-invalid="${newApp.getName().ariaInvalid()}"
