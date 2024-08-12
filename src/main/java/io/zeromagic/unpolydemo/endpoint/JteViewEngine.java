@@ -25,9 +25,12 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @ApplicationScoped
 public class JteViewEngine extends ViewEngineBase {
+    private static final Logger LOGGER = Logger.getLogger(JteViewEngine.class.getName());
     @Inject
     ServletContext context;
 
@@ -67,6 +70,7 @@ public class JteViewEngine extends ViewEngineBase {
                 render(viewEngineContext, new PrintWriterOutput(writer), "layout.jte", content);
             }
         } catch (Exception e) {
+            LOGGER.log(Level.WARNING, "Failed to render view: " + view, e);
             throw new ViewEngineException(e);
         }
     }
