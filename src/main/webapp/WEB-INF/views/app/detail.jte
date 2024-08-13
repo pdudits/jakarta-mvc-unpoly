@@ -14,31 +14,22 @@
       border-radius: 0.5rem;
       aspect-ratio: 1/1;
     }
+    #chart-container {
+        position:relative;
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        min-height: 100px;
+    }
   </style>
-  <script type="module" src="https://cdn.jsdelivr.net/npm/lit-line@latest/cdn/lit-line.js"></script>
   <header>
     <strong>Status</strong>
   </header>
-  <div class="chart-box">
+  <div id="chart-container" up-defer up-href="${app.getName()}/charts">
+  <div class="chart-box" >
     <div aria-busy="true"></div>
     <div aria-busy="true"></div>
-    <lit-line id="chart"></lit-line>
+    <div aria-busy="true"></div>
+  </div>
   </div>
 </article>
-<script>
-    window.customElements.whenDefined("lit-line").then(() =>
-    {
-        let chart = document.getElementById('chart');
-        chart.data = [
-            {
-                color: '#999',
-                points: [
-                    {time: 1982, value: 1112},
-                    {time: 1983, value: 2705},
-                    {time: 2014, value: 1303},
-                    {time: 2016, value: 2605},
-                ]
-            }
-        ];
-    });
-</script>

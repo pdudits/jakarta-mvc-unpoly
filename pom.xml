@@ -72,6 +72,11 @@
             <artifactId>unpoly</artifactId>
             <version>3.8.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>lit-line</artifactId>
+            <version>0.3.2</version>
+        </dependency>
     </dependencies>
 
     <build>

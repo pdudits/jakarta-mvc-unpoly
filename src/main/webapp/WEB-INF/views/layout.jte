@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="${page.contextPath()}/css/layout.css">
     <!-- Unpoly -->
     <script src="${page.contextPath()}/webjars/unpoly/3.8.0/unpoly.min.js" defer></script>
+    <script src="${page.contextPath()}/js/compilers.js" defer></script>
 <%--    <link rel="stylesheet" href="${page.contextPath()}/webjars/unpoly/3.7.3/unpoly.min.css">--%>
 </head>
 <body>
