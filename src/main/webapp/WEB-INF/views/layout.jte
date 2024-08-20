@@ -17,7 +17,7 @@
     <!-- Unpoly -->
     <script src="${page.contextPath()}/webjars/unpoly/3.8.0/unpoly.min.js" defer></script>
     <script src="${page.contextPath()}/js/compilers.js" defer></script>
-<%--    <link rel="stylesheet" href="${page.contextPath()}/webjars/unpoly/3.7.3/unpoly.min.css">--%>
+    <link rel="stylesheet" href="${page.contextPath()}/webjars/unpoly/3.8.0/unpoly.min.css">
 </head>
 <body>
 <div id="grid">
@@ -43,8 +43,13 @@
 <main class="container">
     ${content}
 </main>
-<footer class="container">
+<footer class="container grid">
     <small><a href="https://mastodon.social/@pdudits">Patrik Duditš, @pdudits@mastodon.social</a></small>
+    <small style="text-align:right"><a href="${page.contextPath()}/cookies"
+    up-layer="new" up-mode="drawer" up-position="right"
+    up-history
+    up-target="#cookie-preferences">
+    Cookie?</a></small>
 </footer>
 </div>
 <!-- hot reload - connect to sse endoint at / reload on event -->

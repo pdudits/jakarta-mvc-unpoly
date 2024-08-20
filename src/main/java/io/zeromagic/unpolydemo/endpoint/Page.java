@@ -3,11 +3,16 @@ package io.zeromagic.unpolydemo.endpoint;
 import jakarta.enterprise.inject.Model;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.ws.rs.CookieParam;
+import jakarta.ws.rs.DefaultValue;
 
 @Model
 public class Page {
     @Inject
     HttpServletRequest request;
+
+    // this cannot be injected will require a request filter to initialize
+    String cookiePreference;
 
     private String title = "Unpoly Demo";
 
@@ -21,5 +26,13 @@ public class Page {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public boolean analyticsCookiesEnabled() {
+        return "for-us".equals(cookiePreference) || marketingCookiesEnabled();
+    }
+
+    public boolean marketingCookiesEnabled() {
+        return "for-all".equals(cookiePreference);
     }
 }

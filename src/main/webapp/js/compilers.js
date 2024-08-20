@@ -14,3 +14,6 @@ up.compiler('lit-line', (element) => {
     script.src = '/webjars/lit-line/0.3.2/cdn/lit-line.js';
     head.appendChild(script);
 });
+
+up.on('cookie-pref:changed', 
+    (ev) => {alert('Cookie preference is now ' + ev.value)});
