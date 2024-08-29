@@ -31,7 +31,7 @@
         <hr>
         <nav id="main-nav">
             <ul>
-                <li><a href="/app/">Applications</a></li>
+                <li><a href="/app/" up-follow>Applications</a></li>
                 <li><a href="/new-app/" role="button"
                        up-layer="new"
                        up-target="#modal"

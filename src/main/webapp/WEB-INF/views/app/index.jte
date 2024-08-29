@@ -8,7 +8,7 @@
     </thead>
     <tbody>
     <tr>
-        <td><a href="/app/hello">Application 1</a></td>
+        <td><a href="/app/hello" up-follow>Application 1</a></td>
     </tr>
     </tbody>
 </table>
