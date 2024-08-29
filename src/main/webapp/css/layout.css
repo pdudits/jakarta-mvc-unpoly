@@ -31,3 +31,17 @@
     --pico-color: var(--pico-contrast-inverse);
     --pico-border-radius: 0;
 }
+
+up-modal-backdrop {
+    visibility:hidden
+}
+
+up-modal-dismiss {
+    visibility:hidden
+}
+
+up-drawer-dismiss[role=button] {
+    background-color: transparent;
+    border: 0px none;
+    color: var(--pico-muted-color);
+}
