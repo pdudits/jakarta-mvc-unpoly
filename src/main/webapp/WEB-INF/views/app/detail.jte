@@ -26,7 +26,8 @@
   <header>
     <strong>Status</strong>
   </header>
-  <div id="chart-container" up-defer up-href="${app.getName()}/charts">
+  <!-- using relative path cause problem when we redirect. -->
+  <div id="chart-container" up-defer up-href="/app/${app.getName()}/charts">
   <div class="chart-box" >
     <div aria-busy="true"></div>
     <div aria-busy="true"></div>

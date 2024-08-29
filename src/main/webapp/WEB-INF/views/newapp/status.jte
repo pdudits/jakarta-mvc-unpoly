@@ -1,7 +1,7 @@
 @param io.zeromagic.unpolydemo.newapp.Inspection inspection
 <article>
   <header><h2>Inspecting Application ${inspection.name()}</h2></header>
-  <form up-target="article" up-cache="false">
+  <form up-target="main" up-cache="false">
     <progress></progress>
     <p style="text-align:center">
       <button class="outline contrast" id="reload">
@@ -26,7 +26,10 @@
             refreshSse.close();
         }
         // click refresh button
-        document.getElementById('reload').click();
+        let reload = document.getElementById('reload');
+        if (reload) {
+            reload.click();
+        }
     }
 }
 </script>
