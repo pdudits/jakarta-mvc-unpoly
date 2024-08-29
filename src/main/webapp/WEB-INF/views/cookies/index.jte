@@ -21,12 +21,16 @@ And here are the various purposes we use cookies for:</p>
 <strong>How much cookies do you prefer?</strong>
 </header>
 <form method="post" up-submit>
+  <div class="grid">
 <button type="submit" name="pref" value="for-me"><small>Cookie</small><br>
 For Me</button>
 <button type="submit" name="pref" value="for-you"><small>Cookie</small><br>
 For You</button>
 <button type="submit" name="pref" value="for-all"><small>Cookie</small><br>
 For Everyone</button>
+  </div>
+
 </form>
+  <a href="/cookies" up-layer="parent root">Learn more about cookies.</a>
 </article>
 </section>

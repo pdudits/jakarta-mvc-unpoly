@@ -14,48 +14,52 @@ import jakarta.ws.rs.core.NewCookie;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.POST;
 import jakarta.mvc.Controller;
+
 import java.util.Objects;
 import java.util.logging.Logger;
 
 @Path("/cookies")
 @RequestScoped
 public class CookiesResource {
-    private static final Logger LOGGER = Logger.getLogger(CookiesResource.class.getName());
+  private static final Logger LOGGER = Logger.getLogger(CookiesResource.class.getName());
 
-    @GET
-    @Controller
-    public String cookiesDialog() {
-        return "cookies/index.jte";
-    }
+  @GET
+  @Controller
+  public String cookiesDialog() {
+    return "cookies/index.jte";
+  }
 
-    @POST
-    @Controller
-    public Response saveCookiePreference(
+  @POST
+  @Controller
+  public Response saveCookiePreference(
           @FormParam("pref") String cookiePreference,
           @CookieParam("cookie-pref") String currentCookiePreference,
           @HeaderParam("X-Up-Mode") String layerMode) {
-        var cookie = new NewCookie.Builder("cookie-pref")
-                .value(cookiePreference)
-                .path("/")
-                .maxAge(cookiePreference == null ? 0 : (int)TimeUnit.DAYS.toSeconds(180))
-                .build();
-        var responseBuilder = Response.ok("cookies/index.jte").cookie(cookie);
-        LOGGER.info("Cookie preference: " + cookiePreference);
-        if (layerMode != null) {
-            // we are handling submission within drawer.
-            // accept and close the drawer with new preference
-            responseBuilder.header("X-Up-Accept-Layer", "\"+cookiePreference\"");
-            // ignore html content, just return to previous layer
-            responseBuilder.header("X-Up-Target", ":none");
-            
-            if (!Objects.equals(cookiePreference, currentCookiePreference)) {
-                // emit an event if the preference has changed
-                responseBuilder.header("X-Up-Events", """
-                        [{"type": "cookie-pref:changed", "value": "%s"}]"""
-                        .formatted(cookiePreference));
-                LOGGER.info("Emitting cookie-pref:changed event");
-            }
-        }
-        return responseBuilder.build();
+    var cookie = new NewCookie.Builder("cookie-pref")
+            .value(cookiePreference)
+            .path("/")
+            .maxAge(cookiePreference == null ? 0 : (int) TimeUnit.DAYS.toSeconds(180))
+            .build();
+    var responseBuilder = Response.ok("cookies/index.jte").cookie(cookie);
+    LOGGER.info("Cookie preference: " + cookiePreference);
+    var changedPreference = !Objects.equals(cookiePreference, currentCookiePreference);
+
+    if (layerMode != null && !"root".equals(layerMode)) {
+      // we are handling submission within drawer.
+      // accept and close the drawer with new preference
+      var layerAction = changedPreference ? "X-Up-Accept-Layer" : "X-Up-Dismiss-Layer";
+      responseBuilder.header(layerAction, "\"" + cookiePreference + "\"");
+      // ignore html content, just return to previous layer
+      responseBuilder.header("X-Up-Target", ":none");
+
+      // when layer is accepted then event will not be emitted, because the
+      // source layer no longer exists.
+    } else if (changedPreference) {
+        // emit an event if the preference has changed
+        responseBuilder.header("X-Up-Events", """
+                [{"type": "cookie-pref:changed", "value": "%s"}]"""
+                .formatted(cookiePreference));
     }
+    return responseBuilder.build();
+  }
 }

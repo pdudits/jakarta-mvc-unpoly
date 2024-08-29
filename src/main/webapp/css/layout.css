@@ -45,3 +45,7 @@ up-drawer-dismiss[role=button] {
     border: 0px none;
     color: var(--pico-muted-color);
 }
+
+up-drawer-content .grid {
+    grid-template-columns:1fr
+}

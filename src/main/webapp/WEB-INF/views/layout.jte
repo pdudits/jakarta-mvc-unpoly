@@ -15,7 +15,8 @@
             href="${page.contextPath()}/webjars/picocss__pico/2.0.6/css/pico.min.css">
     <link rel="stylesheet" href="${page.contextPath()}/css/layout.css">
     <!-- Unpoly -->
-    <script src="${page.contextPath()}/webjars/unpoly/3.8.0/unpoly.min.js" defer></script>
+<%--    <script src="${page.contextPath()}/webjars/unpoly/3.8.0/unpoly.min.js" defer></script>--%>
+    <script src="${page.contextPath()}/webjars/unpoly/3.8.0/unpoly.js" defer></script>
     <script src="${page.contextPath()}/js/compilers.js" defer></script>
     <link rel="stylesheet" href="${page.contextPath()}/webjars/unpoly/3.8.0/unpoly.min.css">
 </head>
@@ -48,7 +49,8 @@
     <small style="text-align:right"><a href="${page.contextPath()}/cookies"
     up-layer="new" up-mode="drawer" up-position="right"
     up-history
-    up-target="#cookie-preferences">
+    up-target="#cookie-preferences"
+    up-on-accepted="up.emit('cookie-pref:changed',{value})">
     Cookie?</a></small>
 </footer>
 </div>
