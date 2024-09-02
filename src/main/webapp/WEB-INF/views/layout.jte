@@ -40,6 +40,13 @@
                        New Application</a></li>
             </ul>
         </nav>
+        <details>
+            <summary>UI Settings</summary>
+            <label>
+                <input type="checkbox" id="highlight-fragments">
+                Highlight Updates
+            </label>
+        </details>
     </aside>
 <div class="container" id="main">
     <aside id="flash"></aside>

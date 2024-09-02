@@ -20,13 +20,11 @@ up.compiler('lit-line', (element) => {
 
 // Remove the flash message after 5 seconds
 up.compiler('#flash article', (element) => {
-    const handle = setTimeout( () => {
+    const handle = up.util.timer( 5000, () =>
         // animate the element out of the view
-        up.animate(element, 'move-to-top').then(() => {
+        up.animate(element, 'move-to-top').then(() =>
             // cleanup the element after it's gone
-            up.destroy(element);
-        });
-        }, 5000); // after 5 seconds
+            up.destroy(element))); // after 5 seconds
     // return a cleanup function
     return () => clearTimeout(handle);
 })
@@ -34,8 +32,29 @@ up.compiler('#flash article', (element) => {
 // Show a message when the cookie preference is changed
 // We would be loading/unloading analytics under normal occasion,
 // now it serves as client side usage of Unpoly fragment API.
-up.on('cookie-pref:changed', 
+up.on('cookie-pref:changed',
   (ev) => up.render({
     target: '#flash:after', // append to the flash message
     content: `<article>Cookie preference updated to ${ev.value}</article>`
   }));
+
+// highlight fragments checkbox enables or disables highlighting of
+// replaced fragments
+up.compiler('#highlight-fragments', (element) => {
+    element.value = window.toggleHighlightsHandler || false;
+    return up.on(element, 'change', toggleHighlights);
+});
+
+function toggleHighlights() {
+    if (window.toggleHighlightsHandler) {
+        window.toggleHighlightsHandler();
+        window.toggleHighlightsHandler = null;
+    } else {
+        window.toggleHighlightsHandler = up.on('up:fragment:inserted',
+            (event, fragment) => {
+                fragment.classList.add('new-fragment', 'inserted')
+                up.util.timer(0, () => fragment.classList.remove('inserted'))
+                up.util.timer(1000, () => fragment.classList.remove('new-fragment'))
+        });
+    }
+}

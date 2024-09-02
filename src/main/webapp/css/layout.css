@@ -9,8 +9,15 @@
     grid-row: 1 / 3;
     grid-column: 1 / 2;
     background-color: var(--pico-card-background-color);
-    padding: 1em 0.5em;
+    padding: 1em 0.5em 0;
     border-right: 1px solid var(--pico-muted-border-color);
+    display: flex;
+    flex-direction: column;
+}
+
+/* align last item on aside to bottom */
+#grid aside *:last-child {
+    margin-top: auto;
 }
 
 #grid > #main {
@@ -52,4 +59,12 @@ up-drawer-content .grid {
 
 #flash article {
     background-color: rgb(215, 251, 193); // --pico-green-50
+}
+
+.new-fragment {
+    transition: outline-color 1s ease;
+    outline: rgba(218, 190, 115, 0) 12px solid;
+    &.inserted {
+        outline-color: rgba(218, 190, 115, 0.7);
+    }
 }
