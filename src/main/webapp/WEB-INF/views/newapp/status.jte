@@ -17,8 +17,12 @@
     </p>
   </form>
 </article>
-<script>
+<!-- Even though we're replacing entire main fragment, we don't want
+this script to be launched at every refresh. -->
+<!-- That's why we use the up-keep attribute. -->
+<script id="refresh-status" up-keep>
 {
+    console.log('Connecting to refresh endpoint');
     let refreshSse = new EventSource(''); // connect to the same endpoint
     refreshSse.onmessage = (event) => {
         let data = JSON.parse(event.data);
