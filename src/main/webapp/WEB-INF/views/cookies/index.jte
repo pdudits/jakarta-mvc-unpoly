@@ -1,3 +1,4 @@
+@param io.zeromagic.unpolydemo.cookies.CookieModel cookieModel
 
 <section>
 <header>
@@ -7,30 +8,43 @@
 <p>
 And here are the various purposes we use cookies for:</p>
 <dl>
-<dt>Cookies for you</dt>
-<dd>To use this application</dd>
-<dt>Cookies for us</dt>
+  <dt><b>Cookies for you</b></dt>
+<dd>So that you can use the application</dd>
+  <dt><b>Cookies for us</b></dt>
 <dd>So that we have idea how our users use the app</dd>
-<dt>Cookies for everyone</dt>
+  <dt><b>Cookies for everyone</b></dt>
 <dd>So that our 1652 good friends know how you use the app</dd>
 </dl>
 </section>
 <section id="cookie-preferences">
 <article>
 <header>
-<strong>How much cookies do you prefer?</strong>
+<strong>How many cookies do you prefer?</strong>
 </header>
 <form method="post" up-submit>
-  <div class="grid">
-<button type="submit" name="pref" value="for-me"><small>Cookie</small><br>
-For Me</button>
-<button type="submit" name="pref" value="for-you"><small>Cookie</small><br>
-For You</button>
-<button type="submit" name="pref" value="for-all"><small>Cookie</small><br>
-For Everyone</button>
-  </div>
-
+  <fieldset up-autosubmit>
+    <label>
+      <input type="radio" name="pref" value="for-me"
+             checked="${cookieModel.isForMe()}">
+      Cookie for You
+    </label>
+    <label>
+      <input type="radio" name="pref" value="for-you"
+             checked="${cookieModel.isForYou()}">
+      Cookies For Us
+    </label>
+    <label>
+      <input type="radio" name="pref" value="for-all"
+             checked="${cookieModel.isForAll()}">
+      Cookies For Everyone!
+    </label>
+  </fieldset>
+  <noscript>
+    <button type="submit">Save Preference</button>
+  </noscript>
 </form>
+@if (cookieModel.isOverlay())
   <a href="/cookies" up-layer="parent root">Learn more about cookies.</a>
+@endif
 </article>
 </section>

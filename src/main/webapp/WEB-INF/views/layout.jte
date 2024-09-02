@@ -41,9 +41,10 @@
             </ul>
         </nav>
     </aside>
-<main class="container">
-    ${content}
-</main>
+<div class="container" id="main">
+    <aside id="flash"></aside>
+    <main up-main>${content}</main>
+</div>
 <footer class="container grid">
     <small><a href="https://mastodon.social/@pdudits">Patrik Duditš, @pdudits@mastodon.social</a></small>
     <small style="text-align:right"><a href="${page.contextPath()}/cookies"

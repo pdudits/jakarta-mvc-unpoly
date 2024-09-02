@@ -4,6 +4,7 @@ import java.beans.ConstructorProperties;
 import java.util.concurrent.TimeUnit;
 
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
@@ -23,10 +24,19 @@ import java.util.logging.Logger;
 public class CookiesResource {
   private static final Logger LOGGER = Logger.getLogger(CookiesResource.class.getName());
 
+  @Inject
+  CookieModel model;
+
   @GET
   @Controller
-  public String cookiesDialog() {
-    return "cookies/index.jte";
+  public Response cookiesDialog(
+          @HeaderParam("X-Up-Mode") String layerMode,
+          @CookieParam("cookie-pref") String currentCookiePreference) {
+    model.setOverlay(layerMode != null && !"root".equals(layerMode));
+    model.setCookiePreference(currentCookiePreference);
+    // tell Unpoly that presence of specific layer mode changes output
+    // and therefore it needs to cache it accordingly
+    return Response.ok("cookies/index.jte").header("Vary", "X-Up-Mode").build();
   }
 
   @POST
@@ -40,10 +50,11 @@ public class CookiesResource {
             .path("/")
             .maxAge(cookiePreference == null ? 0 : (int) TimeUnit.DAYS.toSeconds(180))
             .build();
+
     var responseBuilder = Response.ok("cookies/index.jte").cookie(cookie);
     LOGGER.info("Cookie preference: " + cookiePreference);
     var changedPreference = !Objects.equals(cookiePreference, currentCookiePreference);
-
+    model.setCookiePreference(cookiePreference);
     if (layerMode != null && !"root".equals(layerMode)) {
       // we are handling submission within drawer.
       // accept and close the drawer with new preference

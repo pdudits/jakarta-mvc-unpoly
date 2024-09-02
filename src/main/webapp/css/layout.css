@@ -13,7 +13,7 @@
     border-right: 1px solid var(--pico-muted-border-color);
 }
 
-#grid > main {
+#grid > #main {
     grid-row: 1 / 2;
     grid-column: 2 / 3;
     padding: 1em;
@@ -48,4 +48,8 @@ up-drawer-dismiss[role=button] {
 
 up-drawer-content .grid {
     grid-template-columns:1fr
+}
+
+#flash article {
+    background-color: rgb(215, 251, 193); // --pico-green-50
 }
