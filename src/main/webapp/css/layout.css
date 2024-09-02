@@ -15,11 +15,6 @@
     flex-direction: column;
 }
 
-/* align last item on aside to bottom */
-#grid aside *:last-child {
-    margin-top: auto;
-}
-
 #grid > #main {
     grid-row: 1 / 2;
     grid-column: 2 / 3;

@@ -33,6 +33,7 @@
         <nav id="main-nav">
             <ul>
                 <li><a href="/app/" up-follow>Applications</a></li>
+                <li><a href="/ui-preference/" up-follow>UI Preferences</a></li>
                 <li><a href="/new-app/" role="button"
                        up-layer="new"
                        up-target="#modal"
@@ -40,13 +41,6 @@
                        New Application</a></li>
             </ul>
         </nav>
-        <details>
-            <summary>UI Settings</summary>
-            <label>
-                <input type="checkbox" id="highlight-fragments">
-                Highlight Updates
-            </label>
-        </details>
     </aside>
 <div class="container" id="main">
     <aside id="flash"></aside>

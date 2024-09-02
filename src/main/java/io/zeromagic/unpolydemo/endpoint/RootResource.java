@@ -45,4 +45,11 @@ public class RootResource {
             return "".equals(value) || "true".equals(value);
         }
     }
+
+    @GET
+    @Path("ui-preference")
+    @Controller
+    public String uiPreference() {
+        return "ui-preference.jte";
+    }
 }

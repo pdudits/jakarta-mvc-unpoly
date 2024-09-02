@@ -41,7 +41,8 @@ up.on('cookie-pref:changed',
 // highlight fragments checkbox enables or disables highlighting of
 // replaced fragments
 up.compiler('#highlight-fragments', (element) => {
-    element.value = window.toggleHighlightsHandler || false;
+    element.checked = window.toggleHighlightsHandler ? true : false;
+    console.log('highlight-fragments', element.value);
     return up.on(element, 'change', toggleHighlights);
 });
 
