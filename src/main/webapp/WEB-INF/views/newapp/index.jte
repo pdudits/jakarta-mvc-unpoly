@@ -8,8 +8,9 @@
               up-dismiss></button>
       <p><strong>New Application</strong></p>
     </header>
-
-    <form up-layer="parent root" method="post" up-target="main">
+    <!-- There's some bug with 3.9.0 where role gets overwritten to button -->
+    <!-- https://github.com/unpoly/unpoly/issues/668 -->
+    <form up-layer="parent root" method="post" up-target="main" role="form">
       <label>Name
       <input type="text" id="name" name="name"
              aria-invalid="${newApp.getName().ariaInvalid()}"
