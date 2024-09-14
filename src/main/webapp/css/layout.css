@@ -1,7 +1,7 @@
 #grid {
     display: grid;
     grid-template-rows: 1fr auto;
-    grid-template-columns: 200px 1fr;
+    grid-template-columns: 10rem 1fr;
     height: 100vh;
 }
 
@@ -34,6 +34,7 @@
     --pico-border-radius: 0;
 }
 
+/* Since pico.css provides their own modal in form of dialog element, we may hid unpoly modals */
 up-modal-backdrop {
     visibility:hidden
 }
@@ -41,6 +42,7 @@ up-modal-backdrop {
 up-modal-dismiss {
     visibility:hidden
 }
+
 
 up-drawer-dismiss[role=button] {
     background-color: transparent;
