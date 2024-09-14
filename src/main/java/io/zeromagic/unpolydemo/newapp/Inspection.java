@@ -3,7 +3,7 @@ package io.zeromagic.unpolydemo.newapp;
 import java.util.Objects;
 import java.util.UUID;
 
-public record Inspection(InspectionId id, String name, Status status) {
+public record Inspection(InspectionId id, String name, Status status, String contextRoot) {
   public enum Status {
     PENDING, IN_PROGRESS, UPLOADING, COMPLETE, FAILED;
 
@@ -29,11 +29,11 @@ public record Inspection(InspectionId id, String name, Status status) {
     }
   }
 
-  public Inspection(String name) {
-    this(new InspectionId(), name, Status.PENDING);
+  public Inspection(String name, String contextRoot) {
+    this(new InspectionId(), name, Status.PENDING, contextRoot);
   }
 
   public Inspection transition(Status status) {
-    return new Inspection(id, name, status);
+    return new Inspection(id, name, status, contextRoot);
   }
 }

@@ -50,6 +50,7 @@ public class AppResource {
   @Path("{name}/charts")
   public String charts() throws InterruptedException {
     // Request Scope does not propagate to managed executors
+    // therefore we need to block synchronously
     Thread.sleep(5000);
     app.setCharts(List.of(AppChart.requestsChart(),
             AppChart.logsChart(), AppChart.cpuAndMemoryChart()));

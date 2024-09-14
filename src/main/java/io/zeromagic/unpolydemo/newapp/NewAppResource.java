@@ -71,7 +71,7 @@ public class NewAppResource {
       newApp.setContextRoot(FormField.valid(contextRoot));
     }
     if (newApp.isInputValid()) {
-      var id = inspectionProcess.start(name);
+      var id = inspectionProcess.start(name, contextRoot);
       return Response.seeOther(
               mvc.uri("NewAppResource#getStatus",
                       Map.of("id", id.id().toString()))).build();
@@ -93,7 +93,7 @@ public class NewAppResource {
   @Controller
   @GET
   public String testView() {
-    models.put("inspection", new Inspection("test"));
+    models.put("inspection", new Inspection("test", "/test"));
     return "newapp/status.jte";
   }
 

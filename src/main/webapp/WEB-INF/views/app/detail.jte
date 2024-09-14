@@ -22,6 +22,9 @@
         flex-direction: column;
         min-height: 100px;
     }
+    .action-log summary span {
+        font-weight:bold;
+    }
   </style>
   <header>
     <strong>Status</strong>
@@ -39,27 +42,20 @@
 <section>
 <article>
 <header>
-  <h4>Action Log</h4>
+  <strong>Action Log</strong>
 </header>
 
 <div class="action-log">
+  @for(var event : app.getTimeline().reversed())
   <details>
     <summary>
-      <time value="20240814T10:00:00Z">14. 8. 12:00</time>
-      <span>Revision 1 deployed successfully</span>
+      <time value="${event.timestamp().toString()}">${app.formatEventTimestamp(event.timestamp())}</time>
+      <span>${event.message()}</span>
     </summary>
     <p>View/edit Configuration...</p>
     <p>View/edit comments</p>
-  </details>
-
-  <details>
-    <summary>
-      <time value="20240814T10:00:00Z">14. 8. 12:00</time>
-      <span>Uploaded Revision 1</span>
-    </summary>
-    <p>View/edit Configuration...</p>
-    <p>View/edit comments</p>
-  </details>
+  </details><hr>
+  @endfor
 </div>
 </article>
 </section>

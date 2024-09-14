@@ -23,8 +23,8 @@ public class InspectionManager {
   private ConcurrentHashMap<Inspection.InspectionId, Inspection>
           inflight = new ConcurrentHashMap<>();
 
-  public Inspection.InspectionId start(String name) {
-    Inspection inspection = new Inspection(name);
+  public Inspection.InspectionId start(String name, String contextRoot) {
+    Inspection inspection = new Inspection(name, contextRoot);
     inflight.put(inspection.id(), inspection);
     // simulate the process
     updateLater(1000, inspection, i -> i.transition(IN_PROGRESS));
