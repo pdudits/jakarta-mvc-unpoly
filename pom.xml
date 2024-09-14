@@ -134,6 +134,42 @@
 
 
     <profiles>
+        <profile>
+            <!-- payara-micro:dev is a little bit too aggressive with redeployments
+                 I mostly need refresting the views, for which I've got hotreload
+                 implemented -->
+            <id>run</id>
+            <build>
+                <defaultGoal>compile war:exploded payara-micro:start</defaultGoal>
+                <plugins>
+                    <plugin>
+                        <groupId>fish.payara.maven.plugins</groupId>
+                        <artifactId>payara-micro-maven-plugin</artifactId>
+                        <configuration>
+                            <exploded>true</exploded>
+                            <javaCommandLineOptions>
+                                <option>
+                                    <value>-Xdebug</value>
+                                </option>
+                                <option>
+                                    <key>-Xrunjdwp:transport</key>
+                                    <value>dt_socket,server=y,suspend=n,address=9009</value>
+                                </option>
+                            </javaCommandLineOptions>
+                            <commandLineOptions>
+                                <option>
+                                    <key>--nohazelcast</key>
+                                </option>
+                                <option>
+                                    <key>--rootdir</key>
+                                    <value>${project.build.directory}/payara-micro</value>
+                                </option>
+                            </commandLineOptions>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 
 
