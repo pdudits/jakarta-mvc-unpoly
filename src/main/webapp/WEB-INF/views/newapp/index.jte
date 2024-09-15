@@ -14,7 +14,7 @@
       <label>Name
       <input type="text" id="name" name="name"
              aria-invalid="${newApp.getName().ariaInvalid()}"
-             value="${newApp.getName().value()}"required>
+             value="${newApp.getName().value()}" required>
       <small>${newApp.getName().message()}</small>
       </label>
       <label>Context Root
