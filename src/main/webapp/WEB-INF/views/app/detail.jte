@@ -25,6 +25,23 @@
     .action-log summary span {
         font-weight:bold;
     }
+    .comment-list li {
+        list-style-type: none;
+    }
+
+    .comment-list {
+        padding-left: 0;
+    }
+
+    .comment-header {
+        color: var(--pico-muted-color);
+        display: block;
+    }
+
+    .comment-header .author {
+        font-weight: bold;
+    }
+
   </style>
   <header>
     <strong>Status</strong>
@@ -52,8 +69,13 @@
       <time value="${event.timestamp().toString()}">${app.formatEventTimestamp(event.timestamp())}</time>
       <span>${event.message()}</span>
     </summary>
-    <p>View/edit Configuration...</p>
-    <p>View/edit comments</p>
+    <section>
+      <h5>Configuration</h5>
+      <p>View/edit Configuration...</p>
+    </section>
+    <section>
+      <a href="/comment/appevent/${event.id()}/" up-defer="reveal" up-target="section">Comments</a>
+    </section>
   </details><hr>
   @endfor
 </div>
