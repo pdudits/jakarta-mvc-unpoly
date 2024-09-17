@@ -15,9 +15,10 @@ import java.util.concurrent.ConcurrentHashMap;
 public class CommentRepository {
     private final Map<Comment.CommentSubject, SortedSet<Comment>> comments = new ConcurrentHashMap<>();
 
-    private void addComment(Comment.CommentSubject subject, Comment comment) {
-        comments.computeIfAbsent(subject, k -> Collections.synchronizedSortedSet(new TreeSet<>()))
-                .add(comment);
+    private int addComment(Comment.CommentSubject subject, Comment comment) {
+        var commentSet = comments.computeIfAbsent(subject, k -> Collections.synchronizedSortedSet(new TreeSet<>()));
+        commentSet.add(comment);
+        return commentSet.size();
     }
 
     public List<Comment> findComments(ApplicationEvent event) {
@@ -28,9 +29,11 @@ public class CommentRepository {
         return List.copyOf(comments.getOrDefault(new Comment.EventComment(eventId), new TreeSet<>()));
     }
 
-    public Comment addEventComment(int eventId, String author, String content) {
+    public AddResult addEventComment(int eventId, String author, String content) {
         var comment = new Comment(new Comment.EventComment(eventId), author, Instant.now(), content);
-        addComment(new Comment.EventComment(eventId), comment);
-        return comment;
+        var count = addComment(new Comment.EventComment(eventId), comment);
+        return new AddResult(count, comment);
     }
+
+    public record AddResult(int count, Comment comment) { }
 }

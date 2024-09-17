@@ -9,7 +9,7 @@
         <th scope="col">URI</th>
         <th scope="col" style="width: 4rem">Memory Utilization</th>
         <th scope="col" style="width: 4rem">CPU Utilization</th>
-    </tr>i
+    </tr>
     </thead>
     <tbody>
     @for(var app : appList.apps())

@@ -9,8 +9,9 @@ import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.core.Response;
 
-import java.time.Instant;
+import java.net.URI;
 import java.util.List;
 
 @RequestScoped
@@ -40,16 +41,22 @@ public class CommentResource {
     @POST
     @Path("appevent/{eventId}/new")
     @Controller
-    public String newComment(@PathParam("eventId") int eventId,
-                             @FormParam("author") String author,
-                             @FormParam("content") String content,
-                             @HeaderParam("X-Up-Target") String target) {
+    public Response newComment(@PathParam("eventId") int eventId,
+                               @FormParam("author") String author,
+                               @FormParam("content") String content,
+                               @HeaderParam("X-Up-Target") String target) {
         var comment = commentRepository.addEventComment(eventId, author, content);
         if (target != null && target.contains(".comment-list")) {
             // we're appending to comment list, just generate single comment;
-            model.setComments(List.of(comment));
-            return "comment/list.jte";
+            model.setComments(List.of(comment.comment()));
+            var response = Response.ok("comment/list.jte");
+            if (comment.count() ==1) {
+                // if this is the first comment we need to retarget, otherwise
+                // we'll append to list saying "No Comments".
+                response.header("X-Up-Target", ".comment-list,.add-comment");
+            }
+            return response.build();
         }
-        return "redirect:/comment/appevent/" + eventId;
+        return Response.seeOther(URI.create("/comment/appevent/" + eventId + "/")).build();
     }
 }
