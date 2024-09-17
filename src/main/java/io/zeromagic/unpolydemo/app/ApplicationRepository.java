@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.ThreadLocalRandom;
@@ -61,6 +62,13 @@ public class ApplicationRepository {
 
     public SortedSet<ApplicationEvent> findTimeline(Application.Key key) {
         return timelines.getOrDefault(key, Collections.emptySortedSet());
+    }
+
+    public Optional<ApplicationEvent> findEvent(int id) {
+        return timelines.values().stream()
+                .flatMap(SortedSet::stream)
+                .filter(e -> e.id() == id)
+                .findFirst();
     }
 
 

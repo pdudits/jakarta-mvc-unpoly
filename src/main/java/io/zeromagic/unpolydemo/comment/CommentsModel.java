@@ -1,5 +1,6 @@
 package io.zeromagic.unpolydemo.comment;
 
+import io.zeromagic.unpolydemo.app.ApplicationEvent;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -17,6 +18,8 @@ public class CommentsModel {
 
     private List<Comment> comments;
     private DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM HH:mm");
+    private ApplicationEvent event;
+
 
     public List<Comment> getComments() {
         return comments;
@@ -38,5 +41,13 @@ public class CommentsModel {
         } else {
             return request.getRequestURI() + "/new";
         }
+    }
+
+    public void setEvent(ApplicationEvent applicationEvent) {
+        this.event = applicationEvent;
+    }
+
+    public ApplicationEvent getEvent() {
+        return event;
     }
 }

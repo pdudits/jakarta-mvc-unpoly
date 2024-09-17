@@ -8,5 +8,5 @@ public record Application(String name, URI endpoint, List<Revision> revisions) {
         return new Key(name);
     }
 
-    record Key(String name) {}
+    public record Key(String name) {}
 }

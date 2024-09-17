@@ -1,11 +1,13 @@
 package io.zeromagic.unpolydemo.comment;
 
+import io.zeromagic.unpolydemo.app.ApplicationRepository;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.mvc.Controller;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
+import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
@@ -21,13 +23,20 @@ public class CommentResource {
     CommentRepository commentRepository;
 
     @Inject
+    ApplicationRepository applicationRepository;
+
+    @Inject
     CommentsModel model;
 
     @GET
     @Path("appevent/{eventId}/")
     @Controller
-    public String listComments(@PathParam("eventId") int eventId) {
+    public String listComments(@PathParam("eventId") int eventId,
+                               @HeaderParam("X-Up-Version") String version) {
         model.setComments(commentRepository.findEventComments(eventId));
+        if (version == null) {
+            model.setEvent(applicationRepository.findEvent(eventId).orElseThrow(() -> new NotFoundException()));
+        }
         return "comment/list.jte";
     }
 

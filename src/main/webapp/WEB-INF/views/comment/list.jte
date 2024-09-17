@@ -1,6 +1,14 @@
 @param io.zeromagic.unpolydemo.comment.CommentsModel comments
 
 <section>
+  @if(comments.getEvent() != null)
+  <nav aria-label="breadcrumb">
+    <ul>
+      <li><a href="/app/${comments.getEvent().key().name()}">${comments.getEvent().key().name()}</a></li>
+      <li><a href="/app/${comments.getEvent().key().name()}#event-${comments.getEvent().id()}">${comments.getEvent().message()}</a></li>
+    </ul>
+  </nav>
+  @endif
   <h5>Comments</h5>
   <ul class="comment-list">
     @for(var comment : comments.getComments())
