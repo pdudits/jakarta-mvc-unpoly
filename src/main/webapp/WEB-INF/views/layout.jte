@@ -16,9 +16,9 @@
     <link rel="stylesheet" href="${page.contextPath()}/css/layout.css">
     <!-- Unpoly -->
 <%--    <script src="${page.contextPath()}/webjars/unpoly/3.8.0/unpoly.min.js" defer></script>--%>
-    <script src="${page.contextPath()}/webjars/unpoly/3.9.0/unpoly.js" defer></script>
+    <script src="${page.contextPath()}/webjars/unpoly/3.9.1/unpoly.js" defer></script>
     <script src="${page.contextPath()}/js/compilers.js" defer></script>
-    <link rel="stylesheet" href="${page.contextPath()}/webjars/unpoly/3.9.0/unpoly.min.css">
+    <link rel="stylesheet" href="${page.contextPath()}/webjars/unpoly/3.9.1/unpoly.min.css">
 </head>
 <body>
 <div id="grid">
