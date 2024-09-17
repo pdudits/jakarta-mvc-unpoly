@@ -72,28 +72,31 @@ up.compiler('time', (element) => {
     element.textContent = formatter.format(date);
 })
 
-// if Format Timestamps gets unchecked remove dateLocale disabling the compiler above
-// this is a macro because the settings form has attribute up-show-for that needs
-// to address the updated value
-up.macro('#format-timestamps', (element) => {
-    element.checked = document.body.dataset.dateLocale || false;
-    return up.on(element, 'change', (event) => {
-        if (!event.target.checked) {
-            document.body.dataset.dateLocale = null;
+// Load Alpine on demand
+up.compiler('[x-data]', (element) => {
+    if (!window.Alpine) {
+        if (!document.body.dataset.alpineLoaded) {
+            document.body.dataset.alpineLoaded = 'true';
+            let head = document.head;
+            let script = document.createElement('script');
+            script.src = '/webjars/alpinejs/3.14.1/dist/cdn.min.js';
+            head.appendChild(script);
         }
-    });
+    }
 });
 
-up.on('submit', 'form#timestamp-format', (event, element) => {
-    document.body.dataset.dateLocale = element.querySelector('select[name=locale]').value;
-    document.body.dataset.dateStyle = element.querySelector('select[name=dateStyle]').value;
-    document.body.dataset.timeStyle = element.querySelector('select[name=timeStyle]').value;
-
-    // render sample time element into the paragraph
-    up.render({
-        target: '#sample-time',
-        fragment: `<time id='sample-time' datetime="${new Date().toISOString()}">${new Date()}</time>`
-    });
-
-    event.preventDefault();
+up.on('dateformat:changed', (event) => {
+    console.log("Date format changed to", event.detail);
+    if (event.detail.locale) {
+        document.body.dataset.dateLocale = event.detail.locale;
+        document.body.dataset.dateStyle = event.detail.dateStyle;
+        document.body.dataset.timeStyle = event.detail.timeStyle;
+        up.render({
+            target: '#sample-time',
+            fallback: ':none',
+            content: `Example: <time datetime="${new Date().toISOString()}">${new Date()}</time>`
+        })
+    } else {
+        delete document.body.dataset.dateLocale;
+    }
 });

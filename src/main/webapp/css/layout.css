@@ -65,3 +65,7 @@ up-drawer-content .grid {
         outline-color: rgba(218, 190, 115, 0.7);
     }
 }
+
+[x-cloak] {
+    display: none !important;
+}
