@@ -14,7 +14,7 @@
     <tbody>
     @for(var app : appList.apps())
     <tr>
-        <td><a href="${app.name()}/" up-follow>${app.name()}</a></td>
+        <td><a href="/app/${app.name()}/" up-follow>${app.name()}</a></td>
         <td><a href="${app.uri().toString()}">${app.uri().getPath()}</a></td>
         <td style="text-align:right">${app.formattedMemoryUtilization()}</td>
         <td style="text-align:right">${app.formattedCpuUtilization()}</td>
