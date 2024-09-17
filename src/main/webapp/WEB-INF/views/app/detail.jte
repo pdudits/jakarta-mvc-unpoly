@@ -66,7 +66,7 @@
   @for(var event : app.getTimeline().reversed())
   <details>
     <summary>
-      <time value="${event.timestamp().toString()}">${app.formatEventTimestamp(event.timestamp())}</time>
+      <time datetime="${event.timestamp().toString()}">${app.formatEventTimestamp(event.timestamp())}</time>
       <span>${event.message()}</span>
     </summary>
     <section>

@@ -42,7 +42,6 @@ up.on('cookie-pref:changed',
 // replaced fragments
 up.compiler('#highlight-fragments', (element) => {
     element.checked = window.toggleHighlightsHandler ? true : false;
-    console.log('highlight-fragments', element.value);
     return up.on(element, 'change', toggleHighlights);
 });
 
@@ -59,3 +58,42 @@ function toggleHighlights() {
         });
     }
 }
+
+up.compiler('time', (element) => {
+    const timeAttr = element.getAttribute('datetime');
+    if (!document.body.dataset.dateLocale || !timeAttr) {
+        return;
+    }
+    const date = new Date(timeAttr);
+    const formatter = new Intl.DateTimeFormat(document.body.dataset.dateLocale, {
+        dateStyle: document.body.dataset.dateStyle || 'short',
+        timeStyle: document.body.dataset.timeStyle || 'short'
+    });
+    element.textContent = formatter.format(date);
+})
+
+// if Format Timestamps gets unchecked remove dateLocale disabling the compiler above
+// this is a macro because the settings form has attribute up-show-for that needs
+// to address the updated value
+up.macro('#format-timestamps', (element) => {
+    element.checked = document.body.dataset.dateLocale || false;
+    return up.on(element, 'change', (event) => {
+        if (!event.target.checked) {
+            document.body.dataset.dateLocale = null;
+        }
+    });
+});
+
+up.on('submit', 'form#timestamp-format', (event, element) => {
+    document.body.dataset.dateLocale = element.querySelector('select[name=locale]').value;
+    document.body.dataset.dateStyle = element.querySelector('select[name=dateStyle]').value;
+    document.body.dataset.timeStyle = element.querySelector('select[name=timeStyle]').value;
+
+    // render sample time element into the paragraph
+    up.render({
+        target: '#sample-time',
+        fragment: `<time id='sample-time' datetime="${new Date().toISOString()}">${new Date()}</time>`
+    });
+
+    event.preventDefault();
+});
