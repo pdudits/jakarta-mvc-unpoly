@@ -47,7 +47,7 @@
     <strong>Status</strong>
   </header>
   <!-- using relative path cause problem when we redirect. -->
-  <div id="chart-container" up-defer up-href="/app/${app.getName()}/charts">
+  <div id="chart-container" up-defer up-href="/app/${app.getName()}/charts" up-use-hungry="false">
   <div class="chart-box" >
     <div aria-busy="true"></div>
     <div aria-busy="true"></div>
@@ -74,7 +74,7 @@
       <p>View/edit Configuration...</p>
     </section>
     <section>
-      <a href="/comment/appevent/${event.id()}/" up-defer="reveal" up-target="section">Comments</a>
+      <a href="/comment/appevent/${event.id()}/" up-defer="reveal" up-target="section" up-use-hungry="false">Comments</a>
     </section>
   </details><hr>
   @endfor

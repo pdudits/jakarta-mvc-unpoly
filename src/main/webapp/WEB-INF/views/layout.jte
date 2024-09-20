@@ -43,7 +43,7 @@
         </nav>
     </aside>
 <div class="container" id="main">
-    <aside id="flash"></aside>
+    <aside id="flash" up-hungry up-transition="move-down">@if (page.hasFlash()) <article>${page.flash()}</article>@endif</aside>
     <main up-main>${content}</main>
 </div>
 <footer class="container grid">

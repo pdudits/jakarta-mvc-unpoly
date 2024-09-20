@@ -11,6 +11,9 @@ public class Page {
     @Inject
     HttpServletRequest request;
 
+    @Inject
+    PageFlash flash;
+
     // this cannot be injected will require a request filter to initialize
     String cookiePreference;
 
@@ -34,5 +37,17 @@ public class Page {
 
     public boolean marketingCookiesEnabled() {
         return "for-all".equals(cookiePreference);
+    }
+
+    public void flash(String message) {
+        flash.setMessage(message);
+    }
+
+    public boolean hasFlash() {
+        return flash.getMessage() != null && !flash.getMessage().isBlank();
+    }
+
+    public String flash() {
+        return flash.getMessage();
     }
 }
