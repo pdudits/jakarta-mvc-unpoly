@@ -1,8 +1,9 @@
 package io.zeromagic.unpolydemo.newapp;
 
+import io.zeromagic.unpolydemo.datatypes.ContextRoot;
+import io.zeromagic.unpolydemo.datatypes.DnsLabel;
 import io.zeromagic.unpolydemo.endpoint.FormField;
 import io.zeromagic.unpolydemo.sse.Broadcaster;
-import jakarta.annotation.Resource;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.mvc.Controller;
@@ -53,7 +54,7 @@ public class NewAppResource {
     if (name == null || name.isBlank()) {
       newApp.setName(
               FormField.invalid(name, "Name is required"));
-    } else if (!dnsLabel(name)) {
+    } else if (!DnsLabel.isValidDnsLabel(name)) {
       newApp.setName(FormField.invalid(name,
               "Name must contain lowercase alphanumeric characters or '-'"));
     } else {
@@ -63,7 +64,7 @@ public class NewAppResource {
     if (contextRoot == null || contextRoot.isBlank()) {
       newApp.setContextRoot(
               FormField.invalid(contextRoot, "Context root is required"));
-    } else if (!contextPrefix(contextRoot)) {
+    } else if (!ContextRoot.isValidContextRoot(contextRoot)) {
       newApp.setContextRoot(
               FormField.invalid(contextRoot,
                       "Context root be url prefix starting with '/'"));
@@ -79,14 +80,6 @@ public class NewAppResource {
       return Response.status(Response.Status.BAD_REQUEST)
               .entity("newapp/index.jte").build();
     }
-  }
-
-  private boolean dnsLabel(String name) {
-    return name.matches("[a-z]([a-z0-9-]{0,61}[a-z0-9])?");
-  }
-
-  private boolean contextPrefix(String contextRoot) {
-    return contextRoot.matches("/[a-zA-Z0-9-]*");
   }
 
   @Path("_test_view")
