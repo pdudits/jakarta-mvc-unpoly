@@ -9,19 +9,22 @@ import java.lang.annotation.Target;
 
 public record ContextRoot(String value) {
 
-    private static final String REGEX = "/[a-zA-Z0-9-]*";
+  private static final String REGEX = "/[a-zA-Z0-9-]*";
 
-    public ContextRoot {
-        if (!isValidContextRoot(value)) {
-            throw new IllegalArgumentException("Invalid context root: " + value);
-        }
+  public ContextRoot {
+    if (!isValidContextRoot(value)) {
+      throw new IllegalArgumentException("Invalid context root: " + value);
     }
-    public static boolean isValidContextRoot(String contextRoot) {
-      return contextRoot != null && contextRoot.matches(REGEX);
-    }
+  }
 
-    @Target(ElementType.FIELD)
-    @Retention(RetentionPolicy.RUNTIME)
-    @Pattern(regexp = REGEX, message = "Context root be url prefix starting with '/'")
-    public @interface Constraint {}
+  public static boolean isValidContextRoot(String contextRoot) {
+    return contextRoot != null && contextRoot.matches(REGEX);
+  }
+
+  @Target(ElementType.FIELD)
+  @Retention(RetentionPolicy.RUNTIME)
+  @Pattern(regexp = REGEX,
+      message = "Context root be url prefix starting with '/'")
+  public @interface Constraint {
+  }
 }

@@ -4,15 +4,14 @@ import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.DoubleStream;
 import java.util.stream.Stream;
 
 public record AppChart(List<Instant> timestamps, List<Series> series) {
-  public record Series(String name, Purpose purpose, int[] data) {}
+  public record Series(String name, Purpose purpose, int[] data) {
+  }
 
   public static AppChart requestsChart() {
     var timestamps = generateTimestamps();
@@ -23,8 +22,8 @@ public record AppChart(List<Instant> timestamps, List<Series> series) {
       errorRequests[i] = Math.min(errorRequests[i], allRequests[i]);
     }
     return new AppChart(timestamps, List.of(
-            new Series("OK", Purpose.INFO, allRequests),
-            new Series("Error", Purpose.WARNING, errorRequests)
+        new Series("OK", Purpose.INFO, allRequests),
+        new Series("Error", Purpose.WARNING, errorRequests)
     ));
   }
 
@@ -37,8 +36,8 @@ public record AppChart(List<Instant> timestamps, List<Series> series) {
       errorLogs[i] = Math.min(errorLogs[i], allLogs[i]);
     }
     return new AppChart(timestamps, List.of(
-            new Series("All", Purpose.INFO, allLogs),
-            new Series("Error", Purpose.WARNING, errorLogs)
+        new Series("All", Purpose.INFO, allLogs),
+        new Series("Error", Purpose.WARNING, errorLogs)
     ));
   }
 
@@ -47,32 +46,35 @@ public record AppChart(List<Instant> timestamps, List<Series> series) {
     var memory = generateInts(timestamps.size(), 0, 1000, 50);
     var cpu = generateInts(timestamps.size(), 0, 500, 20);
     return new AppChart(timestamps, List.of(
-            new Series("Memory", Purpose.INFO_SECONDARY, memory),
-            new Series("CPU", Purpose.INFO, cpu)
+        new Series("Memory", Purpose.INFO_SECONDARY, memory),
+        new Series("CPU", Purpose.INFO, cpu)
     ));
   }
 
   private static List<Instant> generateTimestamps() {
-    var start = ZonedDateTime.now(ZoneOffset.UTC).truncatedTo(ChronoUnit.MINUTES);
+    var start = ZonedDateTime.now(ZoneOffset.UTC)
+        .truncatedTo(ChronoUnit.MINUTES);
     start = start.plusMinutes(15 - start.getMinute() % 15);
     return Stream.iterate(start, time -> time.minusMinutes(15))
-            .limit(48)
-            .map(ZonedDateTime::toInstant)
-            .toList();
+        .limit(48)
+        .map(ZonedDateTime::toInstant)
+        .toList();
   }
 
   private static int[] generateInts(int count, int min, int max, int speed) {
     return gaussianWalk(count, min, max, speed)
-            .mapToInt(value -> (int)value)
-            .toArray();
+        .mapToInt(value -> (int) value)
+        .toArray();
   }
 
-  private static DoubleStream gaussianWalk(int count, double min, double max, double speed) {
+  private static DoubleStream gaussianWalk(int count, double min, double max,
+      double speed) {
     var random = ThreadLocalRandom.current();
     return DoubleStream.iterate(
-                    random.nextDouble(max - min) + min,
-                    value -> Math.clamp(value + random.nextGaussian() * speed, min, max))
-            .limit(count);
+            random.nextDouble(max - min) + min,
+            value -> Math.clamp(value + random.nextGaussian() * speed, min,
+                max))
+        .limit(count);
   }
 
   public enum Purpose {

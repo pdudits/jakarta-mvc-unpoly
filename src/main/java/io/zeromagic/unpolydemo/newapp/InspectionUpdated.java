@@ -6,7 +6,8 @@ import jakarta.ws.rs.sse.OutboundSseEvent;
 
 import java.util.UUID;
 
-public record InspectionUpdated(Inspection inspection) implements BroadcastEvent {
+public record InspectionUpdated(Inspection inspection)
+    implements BroadcastEvent {
   @Override
   public UUID objectId() {
     return inspection.id().id();
@@ -20,8 +21,8 @@ public record InspectionUpdated(Inspection inspection) implements BroadcastEvent
   @Override
   public OutboundSseEvent toSseEvent(OutboundSseEvent.Builder eventBuilder) {
     return eventBuilder
-            .data(inspection)
-            .mediaType(MediaType.APPLICATION_JSON_TYPE)
-            .build();
+        .data(inspection)
+        .mediaType(MediaType.APPLICATION_JSON_TYPE)
+        .build();
   }
 }

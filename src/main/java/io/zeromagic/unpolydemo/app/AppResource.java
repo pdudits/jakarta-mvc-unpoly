@@ -10,15 +10,7 @@ import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.mvc.Controller;
 import jakarta.mvc.MvcContext;
-import jakarta.ws.rs.BeanParam;
-import jakarta.ws.rs.DefaultValue;
-import jakarta.ws.rs.FormParam;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.HeaderParam;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 
 import java.util.List;
@@ -54,13 +46,15 @@ public class AppResource {
   @Path("{name}")
   public String appDetail(@PathParam("name") String name) {
     app.setName(name);
-    app.setCharts(List.of(AppChart.requestsChart(), AppChart.logsChart(), AppChart.cpuAndMemoryChart()));
+    app.setCharts(List.of(AppChart.requestsChart(), AppChart.logsChart(),
+        AppChart.cpuAndMemoryChart()));
     return "app/detail.jte";
   }
 
   @GET
   @Path("{name}/config")
-  public String config(@PathParam("name") String name, @QueryParam("edit") @DefaultValue("false") boolean edit) {
+  public String config(@PathParam("name") String name,
+      @QueryParam("edit") @DefaultValue("false") boolean edit) {
     app.setName(name);
     if (edit) {
       return CONFIG_EDIT;
@@ -71,7 +65,9 @@ public class AppResource {
   @POST
   @Controller
   @Path("{name}/config")
-  public Response processConfig(@PathParam("name") String name, @BeanParam ConfigParams params, @HeaderParam("X-Up-Validate") String validate) {
+  public Response processConfig(@PathParam("name") String name,
+      @BeanParam ConfigParams params,
+      @HeaderParam("X-Up-Validate") String validate) {
     return switch (validate) {
       case "scalingType" -> validateScalingType(params);
       case null -> updateConfig(name, params);
@@ -89,7 +85,8 @@ public class AppResource {
       return Response.status(422).entity(CONFIG_EDIT).build();
     }
     page.flash("Configuration was updated");
-    return Response.seeOther(mvc.uri("AppResource#appDetail", Map.of("name",name))).build();
+    return Response.seeOther(
+        mvc.uri("AppResource#appDetail", Map.of("name", name))).build();
   }
 
   private Response validateScalingType(ConfigParams params) {
@@ -103,7 +100,8 @@ public class AppResource {
     // Request Scope does not propagate to managed executors
     // therefore we need to block synchronously
     Thread.sleep(5000);
-    app.setCharts(List.of(AppChart.requestsChart(), AppChart.logsChart(), AppChart.cpuAndMemoryChart()));
+    app.setCharts(List.of(AppChart.requestsChart(), AppChart.logsChart(),
+        AppChart.cpuAndMemoryChart()));
     return "app/charts.jte";
   }
 
@@ -136,13 +134,16 @@ public class AppResource {
 
     ScalabilityType validateScalingType(AppConfigModel model) {
       if (scalingType == null || scalingType.isBlank()) {
-        model.setScalabilityField(FormField.invalid(scalingType, "Scaling type is required"));
+        model.setScalabilityField(
+            FormField.invalid(scalingType, "Scaling type is required"));
       } else {
-        var type = FormField.parse(scalingType, model::setScalabilityField, ScalabilityType::fromString);
+        var type = FormField.parse(scalingType, model::setScalabilityField,
+            ScalabilityType::fromString);
         if (type != null) {
           model.setScalabilityType(type);
           model.setAvailableSizes(type.getSupportedSizes());
-          model.setRuntimeSize(FormField.undetermined(type.defaultRuntimeSize().toString()));
+          model.setRuntimeSize(
+              FormField.undetermined(type.defaultRuntimeSize().toString()));
           // set defaults for scalability-dependant fields:
           switch (type) {
             case ROLLING -> {
@@ -163,16 +164,20 @@ public class AppResource {
 
     boolean validate(AppConfigModel model) {
       if (contextRoot == null || contextRoot.isBlank()) {
-        model.setContextRoot(FormField.invalid(contextRoot, "Context root is required"));
+        model.setContextRoot(
+            FormField.invalid(contextRoot, "Context root is required"));
       } else if (!ContextRoot.isValidContextRoot(contextRoot)) {
-        model.setContextRoot(FormField.invalid(contextRoot, "Context root should be url prefix starting with '/'"));
+        model.setContextRoot(FormField.invalid(contextRoot,
+            "Context root should be url prefix starting with '/'"));
       } else {
         model.setContextRoot(FormField.valid(contextRoot));
       }
-      var jakartaVersion = FormField.parse(this.jakartaVersion, model::setJakartaVersion,
+      var jakartaVersion = FormField.parse(this.jakartaVersion,
+          model::setJakartaVersion,
           require("Jakarta EE version is required", JakartaVersion::parse));
       if (jakartaVersion != null) {
-          FormField.parse(javaVersion, model::setJavaVersion, jakartaVersion::checkJavaVersion);
+        FormField.parse(javaVersion, model::setJavaVersion,
+            jakartaVersion::checkJavaVersion);
       }
 
       var scalabilityType = validateScalingType(model);
@@ -182,11 +187,13 @@ public class AppResource {
       return model.inputValid();
     }
 
-    private void validateScalingOptions(AppConfigModel app, ScalabilityType scalabilityType) {
+    private void validateScalingOptions(AppConfigModel app,
+        ScalabilityType scalabilityType) {
       var size = FormField.parse(runtimeSize, app::setRuntimeSize,
           require("Runtime size is required", RuntimeSize::fromString)
               .andThen(check(scalabilityType.getSupportedSizes()::contains,
-                  v -> "Unsupported size for %s. Supported sizes are:".formatted(scalabilityType, scalabilityType.getSupportedSizes()))));
+                  v -> "Unsupported size for %s. Supported sizes are:".formatted(
+                      scalabilityType, scalabilityType.getSupportedSizes()))));
       if (scalabilityType.hasDatagrid()) {
         FormField.parse(datagrid, app::setDatagrid,
             require("Datagrid is required", Function.identity()));
@@ -196,8 +203,10 @@ public class AppResource {
             require("Switchover time is required", Integer::valueOf));
       }
       if (scalabilityType.hasReplicas()) {
-        FormField.parse(replicas, app::setReplicas, require("Replicas is required", Integer::valueOf)
-            .andThen(check(v -> v >= 1 && v <= 8, v -> "Replicas must be between 1 and 8")));
+        FormField.parse(replicas, app::setReplicas,
+            require("Replicas is required", Integer::valueOf)
+                .andThen(check(v -> v >= 1 && v <= 8,
+                    v -> "Replicas must be between 1 and 8")));
       }
     }
   }

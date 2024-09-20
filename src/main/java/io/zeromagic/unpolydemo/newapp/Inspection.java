@@ -3,7 +3,8 @@ package io.zeromagic.unpolydemo.newapp;
 import java.util.Objects;
 import java.util.UUID;
 
-public record Inspection(InspectionId id, String name, Status status, String contextRoot) {
+public record Inspection(InspectionId id, String name, Status status,
+                         String contextRoot) {
   public enum Status {
     PENDING, IN_PROGRESS, UPLOADING, COMPLETE, FAILED;
 

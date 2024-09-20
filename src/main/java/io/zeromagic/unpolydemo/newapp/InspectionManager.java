@@ -21,7 +21,7 @@ public class InspectionManager {
   Event<InspectionUpdated> updatedEvent;
 
   private ConcurrentHashMap<Inspection.InspectionId, Inspection>
-          inflight = new ConcurrentHashMap<>();
+      inflight = new ConcurrentHashMap<>();
 
   public Inspection.InspectionId start(String name, String contextRoot) {
     Inspection inspection = new Inspection(name, contextRoot);
@@ -38,19 +38,20 @@ public class InspectionManager {
   }
 
   private void update(Inspection i,
-                      Function<Inspection, Inspection> transition) {
+      Function<Inspection, Inspection> transition) {
     var newStatus = inflight.compute(i.id(),
-            (id, inspection) -> transition.apply(inspection));
+        (id, inspection) -> transition.apply(inspection));
     updatedEvent.fireAsync(new InspectionUpdated(newStatus));
     if (newStatus.status() == COMPLETE || newStatus.status() == FAILED) {
       // remove completed in
-      executorService.schedule(() -> inflight.remove(i.id()), 5, TimeUnit.MINUTES);
+      executorService.schedule(() -> inflight.remove(i.id()), 5,
+          TimeUnit.MINUTES);
     }
   }
 
   private void updateLater(long delay, Inspection i,
-                           Function<Inspection, Inspection> transition) {
+      Function<Inspection, Inspection> transition) {
     executorService.schedule(() -> update(i, transition),
-            delay, TimeUnit.MILLISECONDS);
+        delay, TimeUnit.MILLISECONDS);
   }
 }

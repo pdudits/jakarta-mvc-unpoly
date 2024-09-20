@@ -18,14 +18,15 @@ import java.util.logging.Logger;
 
 @ApplicationScoped
 public class Broadcaster {
-  private static final Logger LOGGER = Logger.getLogger(Broadcaster.class.getName());
+  private static final Logger LOGGER = Logger.getLogger(
+      Broadcaster.class.getName());
 
   @Context
   Sse sse;
 
   private OutboundSseEvent.Builder eventBuilder;
   private ConcurrentHashMap<SinkKey, SseBroadcaster>
-          broadcasts = new ConcurrentHashMap<>();
+      broadcasts = new ConcurrentHashMap<>();
 
   @PostConstruct
   void init() {
@@ -38,17 +39,17 @@ public class Broadcaster {
   }
 
   public void register(SseEventSink sink, UUID objectId,
-                       Class<? extends BroadcastEvent> eventClass) {
+      Class<? extends BroadcastEvent> eventClass) {
     var key = new SinkKey(eventClass, objectId);
     var broadcaster = broadcasts
-            .computeIfAbsent(key, k -> sse.newBroadcaster());
+        .computeIfAbsent(key, k -> sse.newBroadcaster());
     broadcaster.register(sink);
   }
 
   void onBroadcast(@Observes BroadcastEvent event) {
-    for(Class<?> clazz = event.getClass();
-        clazz != null && BroadcastEvent.class.isAssignableFrom(clazz);
-        clazz = clazz.getSuperclass()) {
+    for (Class<?> clazz = event.getClass();
+         clazz != null && BroadcastEvent.class.isAssignableFrom(clazz);
+         clazz = clazz.getSuperclass()) {
       var key = new SinkKey(event.getClass(), event.objectId());
       broadcast(event, key);
       if (event.objectId() != null) {
@@ -68,7 +69,7 @@ public class Broadcaster {
           .whenComplete((r, t) -> {
             if (t != null) {
               LOGGER.log(Level.WARNING,
-                      "Error broadcasting event", t);
+                  "Error broadcasting event", t);
             }
           });
       if (event.terminalEvent()) {
@@ -78,5 +79,6 @@ public class Broadcaster {
     }
   }
 
-  record SinkKey(Class<?> eventClass, UUID objectId) {}
+  record SinkKey(Class<?> eventClass, UUID objectId) {
+  }
 }

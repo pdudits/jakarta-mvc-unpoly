@@ -8,26 +8,26 @@ import jakarta.inject.Named;
 @Named("newApp")
 @RequestScoped
 public class NewAppModel {
-    private FormField name = FormField.blank();
-    private FormField contextRoot = FormField.blank();
+  private FormField name = FormField.blank();
+  private FormField contextRoot = FormField.blank();
 
-    public FormField getName() {
-        return name;
-    }
+  public FormField getName() {
+    return name;
+  }
 
-    public void setName(FormField name) {
-        this.name = name;
-    }
+  public void setName(FormField name) {
+    this.name = name;
+  }
 
-    public FormField getContextRoot() {
-        return contextRoot;
-    }
+  public FormField getContextRoot() {
+    return contextRoot;
+  }
 
-    public void setContextRoot(FormField contextRoot) {
-        this.contextRoot = contextRoot;
-    }
+  public void setContextRoot(FormField contextRoot) {
+    this.contextRoot = contextRoot;
+  }
 
-    public boolean isInputValid() {
-        return name.inputValid() && contextRoot.inputValid();
-    }
+  public boolean isInputValid() {
+    return name.inputValid() && contextRoot.inputValid();
+  }
 }
