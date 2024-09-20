@@ -71,7 +71,7 @@
     </summary>
     <section>
       <h5>Configuration</h5>
-      <p>View/edit Configuration...</p>
+      <p><a href="/app/${app.getName()}/config?edit=true" up-follow>Edit configuration</a></p>
     </section>
     <section>
       <a href="/comment/appevent/${event.id()}/" up-defer="reveal" up-target="section" up-use-hungry="false">Comments</a>

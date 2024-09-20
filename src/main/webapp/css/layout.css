@@ -69,3 +69,12 @@ up-drawer-content .grid {
 [x-cloak] {
     display: none !important;
 }
+
+fieldset[aria-invalid="true"] {
+    outline: var(--pico-border-width) solid var(--pico-form-element-invalid-border-color);
+    outline-offset: var(--pico-border-radius);
+}
+
+fieldset[aria-invalid="true"] small:last-of-type {
+    color: var(--pico-form-element-invalid-border-color);
+}
