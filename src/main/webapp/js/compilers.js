@@ -35,7 +35,7 @@ up.compiler('#flash article', (element) => {
 up.on('cookie-pref:changed',
   (ev) => up.render({
     target: '#flash:after', // append to the flash message
-    content: `<article>Cookie preference updated to ${ev.value}</article>`
+    content: `<article>Cookie preference updated to ${ev.value}</article>`,
   }));
 
 // highlight fragments checkbox enables or disables highlighting of
@@ -99,7 +99,14 @@ up.on('dateformat:changed', (event) => {
     } else {
         delete document.body.dataset.dateLocale;
     }
-});up.on('up:fragment:keep', 'bar-chart', (ev) => {
+});
+
+// request html (otherwise chosen by random by server)
+up.on('up:request:load', function (event) {
+    event.request.headers['Accept'] = 'text/html,*/*;q=0.8';
+});
+
+up.on('up:fragment:keep', 'bar-chart', (ev) => {
     // add the first child of ev.nextElement to ev.element
     console.log(ev);
     ev.target.appendChild(ev.newFragment.firstElementChild);
