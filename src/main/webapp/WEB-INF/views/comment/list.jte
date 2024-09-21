@@ -23,5 +23,6 @@
     <li><small class="comment-header">No comments</small></li>
     @endfor
   </ul>
-  <a href="${comments.newPostLink()}" class="add-comment" up-target=".add-comment" role="button">Add Comment</a>
+  <a href="${comments.newPostLink()}" class="add-comment"
+     up-target=".add-comment" role="button">Add Comment</a>
 </section>

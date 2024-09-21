@@ -13,6 +13,7 @@
     border-right: 1px solid var(--pico-muted-border-color);
     display: flex;
     flex-direction: column;
+    z-index: 1;
 }
 
 #grid > #main {
@@ -116,4 +117,51 @@ fieldset[aria-invalid="true"] small:last-of-type {
 .comment-header .author {
     font-weight: bold;
 }
+
+bar-chart {
+    width: 24px;
+    height: 1rem;
+    display: inline-flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    --h: 0;
+}
+
+bar {
+    width: 3px;
+    margin-left: 2px;
+    background-color: color-mix(in hsl, var(--pico-muted-color) 50%, white);
+    height: var(--h);
+    flex-shrink: 0;
+}
+
+@keyframes moveLeft {
+    from {
+        margin-right: 0;
+    }
+    to {
+        margin-right: 5px;
+    }
+}
+
+@keyframes disappear {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+bar-chart.polled {
+    animation: moveLeft 4s forwards;
+}
+
+bar-chart + span {
+    width: 2.75rem;
+    display: inline-block;
+}
+
+bar-chart:has(bar:nth-child(5)) bar:first-child {
+    animation: disappear 4s forwards;
 }
