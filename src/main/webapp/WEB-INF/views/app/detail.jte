@@ -1,6 +1,10 @@
 @param io.zeromagic.unpolydemo.app.AppModel app
 
-<h2>Application ${app.getName()}</h2>
+<h2>
+  <a href="/app/" role="button" class="outline" up-follow
+    up-transition="move-right"> &lt; </a>
+  Application ${app.getName()}
+</h2>
 <section>
 <article>
   <header>
@@ -34,7 +38,9 @@
       <p><a href="/app/${app.getName()}/config?edit=true" up-follow>Edit configuration</a></p>
     </section>
     <section>
-      <a href="/comment/appevent/${event.id()}/" up-defer="reveal" up-target="section" up-use-hungry="false">Comments</a>
+      <a href="/comment/appevent/${event.id()}/"
+        up-defer="reveal" up-target="section"
+        up-use-hungry="false">Comments</a>
     </section>
   </details><hr>
   @endfor
