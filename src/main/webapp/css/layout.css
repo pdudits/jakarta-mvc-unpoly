@@ -78,3 +78,42 @@ fieldset[aria-invalid="true"] {
 fieldset[aria-invalid="true"] small:last-of-type {
     color: var(--pico-form-element-invalid-border-color);
 }
+
+.chart-box {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--pico-block-spacing-vertical);
+}
+.chart-box > * {
+    background-color: #f0f0f0;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    aspect-ratio: 1/1;
+}
+#chart-container {
+    position:relative;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    min-height: 100px;
+}
+.action-log summary span {
+    font-weight:bold;
+}
+.comment-list li {
+    list-style-type: none;
+}
+
+.comment-list {
+    padding-left: 0;
+}
+
+.comment-header {
+    color: var(--pico-muted-color);
+    display: block;
+}
+
+.comment-header .author {
+    font-weight: bold;
+}
+}
