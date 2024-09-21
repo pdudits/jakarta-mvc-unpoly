@@ -1,6 +1,6 @@
 @param io.zeromagic.unpolydemo.app.AppConfigModel appConfig
 
-<form method="post" up-submit>
+<form method="post" up-submit up-fail-scroll="[aria-invalid=true]">
   <article>
     <header><strong>Routing</strong></header>
     <label>
@@ -52,7 +52,7 @@
   </article>
   <article>
     <header><strong>Scaling</strong></header>
-    <fieldset>
+    <fieldset aria-invalid="${appConfig.getScalabilityField().ariaInvalid()}">
       <legend>Scaling type</legend>
       <!-- singleton, blue-green, horizontal scaling -->
       <label>
@@ -67,6 +67,7 @@
         <input type="radio" name="scalingType" value="horizontal"
                checked="${appConfig.getScalabilityField().is("horizontal")}" up-validate="#scaling-options"> Horizontal scaling
       </label>
+      <small>${appConfig.getScalabilityField().message()}</small>
     </fieldset>
     <hr>
     <div id="scaling-options">
