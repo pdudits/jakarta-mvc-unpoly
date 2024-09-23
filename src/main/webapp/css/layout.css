@@ -165,3 +165,16 @@ bar-chart + span {
 bar-chart:has(bar:nth-child(5)) bar:first-child {
     animation: disappear 4s forwards;
 }
+
+bar-chart bar:last-child {
+    animation: grow 0.2s forwards;
+}
+
+@keyframes grow {
+    from {
+        height: 0;
+    }
+    to {
+        height: var(--h);
+    }
+}
