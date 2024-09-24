@@ -13,7 +13,7 @@
 
   <!-- Pico.css -->
   <link rel="stylesheet" href="${page.contextPath()}/webjars/picocss__pico/2.0.6/css/pico.min.css">
-  <link rel="stylesheet" href="${page.contextPath()}/css/layout.css">
+  <link rel="stylesheet" href="${page.contextPath()}/css/styles.css">
   <!-- Unpoly -->
   <script
     src="${page.contextPath()}/webjars/unpoly/3.9.1/unpoly.js"
