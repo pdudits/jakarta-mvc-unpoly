@@ -132,15 +132,16 @@ bar {
     margin-left: 2px;
     background-color: color-mix(in hsl, var(--pico-muted-color) 50%, white);
     height: var(--h);
+    transform-origin: bottom;
     flex-shrink: 0;
 }
 
 @keyframes moveLeft {
     from {
-        margin-right: 0;
+        transform: translateX(0);
     }
     to {
-        margin-right: 5px;
+        transform: translateX(-5px);
     }
 }
 
@@ -172,9 +173,9 @@ bar-chart bar:last-child {
 
 @keyframes grow {
     from {
-        height: 0;
+        transform: scaleY(0);
     }
     to {
-        height: var(--h);
+        transform: scaleY(100%);
     }
 }

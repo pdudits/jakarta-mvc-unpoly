@@ -108,7 +108,6 @@ up.on('up:request:load', function (event) {
 
 up.on('up:fragment:keep', 'bar-chart', (ev) => {
     // add the first child of ev.nextElement to ev.element
-    console.log(ev);
     ev.target.appendChild(ev.newFragment.firstElementChild);
     // remove first element if we have more than 5 childen
     if (ev.target.children.length > 5) {
