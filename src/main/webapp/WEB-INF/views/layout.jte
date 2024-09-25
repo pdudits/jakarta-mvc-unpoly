@@ -51,9 +51,9 @@
   <aside id="flash" up-flashes>@if (page.hasFlash()) <article>${page.flash()}</article>@endif</aside>
   <main up-main>${content}</main>
 </div>
-<footer class="container grid">
+<footer class="container">
   <small><a href="https://mastodon.social/@pdudits">Patrik Duditš, @pdudits@mastodon.social</a></small>
-  <small style="text-align:right">
+  <small>
     <a href="${page.contextPath()}/cookies"
       up-layer="new" up-mode="drawer" up-position="right"
       up-history

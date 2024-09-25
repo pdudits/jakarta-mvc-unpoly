@@ -53,8 +53,8 @@ function toggleHighlights() {
         window.toggleHighlightsHandler = up.on('up:fragment:inserted',
             (event, fragment) => {
                 fragment.classList.add('new-fragment', 'inserted')
-                up.util.timer(0, () => fragment.classList.remove('inserted'))
-                up.util.timer(1000, () => fragment.classList.remove('new-fragment'))
+                up.util.timer(1000, () => fragment.classList.remove('inserted'))
+                up.util.timer(3000, () => fragment.classList.remove('new-fragment'))
         });
     }
 }
