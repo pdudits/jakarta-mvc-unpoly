@@ -20,6 +20,7 @@ And here are the various purposes we use cookies for:</p>
 <article>
 <header>
 <strong>How many cookies do you prefer?</strong>
+  <a href="/static/up-layer-3.html" class="instruction">?</a>
 </header>
 <form method="post" up-submit>
   <fieldset up-autosubmit>

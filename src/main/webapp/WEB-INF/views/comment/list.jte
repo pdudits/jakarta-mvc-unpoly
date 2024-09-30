@@ -9,7 +9,7 @@
     </ul>
   </nav>
   @endif
-  <h5>Comments</h5>
+  <h5>Comments<a href="/static/up-defer-2.html" class="instruction">?</a></h5>
   <ul class="comment-list">
     @for(var comment : comments.getComments())
     <li>
@@ -23,6 +23,8 @@
     <li><small class="comment-header">No comments</small></li>
     @endfor
   </ul>
-  <a href="${comments.newPostLink()}" class="add-comment"
-     up-target=".add-comment" role="button">Add Comment</a>
+  <span style="padding-right: 3em" class="add-comment"><!-- add-comment were originally on a before instruction was added -->
+  <a href="${comments.newPostLink()}"
+    up-target=".add-comment" role="button">Add Comment</a> <a href="/static/up-target-1.html" class="instruction"></a>
+  </span>
 </section>

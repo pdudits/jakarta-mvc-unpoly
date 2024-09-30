@@ -27,22 +27,22 @@
 <div id="grid">
 <aside>
   <header>
-    <hgroup>
-      <h3>Unpoly flythrough</h3>
-      <p><small>SPA experience with server side rendering</small></p>
-    </hgroup>
+    <h3>Unpoly Demo</h3>
   </header>
   <hr>
   <nav id="main-nav">
     <ul>
-      <li><a href="/app/" up-follow>Applications</a></li>
+      <li><a href="/app/" up-follow>Applications</a><a href="/static/up-follow.html"
+          class="instruction">?</a></li>
       <li><a href="/ui-preference/" up-follow>UI Preferences</a></li>
-      <li>
+      <li><span>
         <a href="/new-app/" role="button"
           up-layer="new"
           up-target="#modal"
           up-history="true">
           New Application</a>
+        <a href="/static/up-layer-1.html" style="right:-1.5em" class="instruction">?</a>
+        </span>
       </li>
     </ul>
   </nav>
@@ -60,6 +60,7 @@
       up-target="#cookie-preferences"
       up-on-accepted="up.emit('cookie-pref:changed',{value})">
       Cookie?</a>
+    <a href="/static/up-layer-2.html" class="instruction" style="right:-1.8em">?</a>
   </small>
 </footer>
 </div>

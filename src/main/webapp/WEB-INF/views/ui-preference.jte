@@ -14,7 +14,7 @@
        x-effect="$dispatch('dateformat:changed',{locale, dateStyle, timeStyle})">
     <label>
       <input type="checkbox" x-model="enabled">
-      Format Timestamps
+      Format Timestamps <a href="/static/up-compiler-2.html" class="instruction" style="right: -2em">?</a>
     </label>
     <form x-show="enabled" x-cloak style="padding-left: 2rem">
       <label>Locale

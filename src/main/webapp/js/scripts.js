@@ -113,4 +113,12 @@ up.on('up:fragment:keep', 'bar-chart', (ev) => {
     if (ev.target.children.length > 5) {
         ev.target.removeChild(ev.target.firstElementChild);
     }
-})
+});
+
+// macro compilers are executed before regular compilers, therefore we can put in
+// unpoly attributes to an element and have them processed by the regular compilers
+up.macro('a.instruction', (element) => {
+    element.setAttribute('up-layer', 'new');
+    element.setAttribute('up-size', 'large');
+    element.textContent = '✤';
+});

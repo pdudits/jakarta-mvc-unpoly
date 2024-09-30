@@ -2,7 +2,7 @@
 
 <form method="post" up-submit up-fail-scroll="[aria-invalid=true]">
   <article>
-    <header><strong>Routing</strong></header>
+    <header><strong>Routing</strong> <a href="/static/up-validate.html" class="instruction">?</a></header>
     <label>
       Context Root
       <input type="text" name="contextRoot" value="${appConfig.getContextRoot().value()}"
@@ -11,7 +11,7 @@
     </label>
   </article>
   <article>
-    <header><strong>Runtime</strong></header>
+    <header><strong>Runtime</strong>  <a href="/static/up-switch.html" class="instruction">?</a></header>
     <fieldset aria-invalid="${appConfig.getJakartaVersion().ariaInvalid()}"
        aria-describedby="jakartaVersion-validation">
       <legend>Jakarta EE version</legend>
@@ -39,9 +39,9 @@
         <input type="radio" name="javaVersion" value="11"
                checked="${appConfig.getJavaVersion().is("11")}">Java 11
       </label>
-      <label class="jdk" up-show-for="8 10"
-              checked="${appConfig.getJavaVersion().is("17")}">
-        <input type="radio" name="javaVersion" value="17">Java 17
+      <label class="jdk" up-show-for="8 10">
+        <input type="radio" name="javaVersion" value="17"
+              checked="${appConfig.getJavaVersion().is("17")}">Java 17
       </label>
       <label class="jdk" up-show-for="8 10 11">
         <input type="radio" name="javaVersion" value="21"
@@ -51,7 +51,7 @@
     </fieldset>
   </article>
   <article>
-    <header><strong>Scaling</strong></header>
+    <header><strong>Scaling</strong> <a href="/static/up-validate-4.html" class="instruction">?</a></header>
     <fieldset aria-invalid="${appConfig.getScalabilityField().ariaInvalid()}">
       <legend>Scaling type</legend>
       <!-- singleton, blue-green, horizontal scaling -->

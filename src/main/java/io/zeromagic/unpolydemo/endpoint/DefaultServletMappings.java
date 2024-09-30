@@ -54,6 +54,6 @@ public class DefaultServletMappings implements ServletContextListener {
     // startup, so it cannot be redefined in web.xml
     var defaultMapping = sce.getServletContext().getServletRegistrations()
         .get("default");
-    defaultMapping.addMapping("/webjars/*", "/css/*", "/js/*", "/images/*");
+    defaultMapping.addMapping("/webjars/*", "/css/*", "/js/*", "/images/*", "/static/*");
   }
 }

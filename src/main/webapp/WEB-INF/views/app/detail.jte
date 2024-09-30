@@ -8,7 +8,7 @@
 <section>
 <article>
   <header>
-    <strong>Status</strong>
+    <strong>Status</strong><a href="/static/up-defer.html" class="instruction">?</a>
   </header>
   <!-- using relative path cause problem when we redirect. -->
   <div id="chart-container" up-defer up-href="/app/${app.getName()}/charts" up-revalidate="true">

@@ -24,7 +24,7 @@
     <small>${newApp.getContextRoot().message()}</small>
     </label>
     <footer>
-      <button type="submit">Save</button>
+      <button type="submit">Save<a class="instruction" href="/static/up-submit.html">?</a></button>
     </footer>
   </form>
 
