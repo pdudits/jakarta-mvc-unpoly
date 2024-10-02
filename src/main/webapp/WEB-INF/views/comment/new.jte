@@ -1,4 +1,7 @@
-<form class="add-comment" up-target=".comment-list:after, .add-comment" method="post">
+<form class="add-comment"
+    up-target="section .comment-list:after, .add-comment"
+    up-scroll="target"
+    method="post">
 <article>
   <header><strong>Add comment</strong></header>
     <label>Author<input type="text" name="author"></label>

@@ -57,7 +57,7 @@ public class CommentResource {
       if (comment.count() == 1) {
         // if this is the first comment we need to retarget, otherwise
         // we'll append to list saying "No Comments".
-        response.header("X-Up-Target", ".comment-list,.add-comment");
+        response.header("X-Up-Target", "section .comment-list,.add-comment");
       }
       return response.build();
     }
