@@ -36,6 +36,7 @@ up.on('cookie-pref:changed',
   (ev) => up.render({
     target: '#flash:after', // append to the flash message
     content: `<article>Cookie preference updated to ${ev.value}</article>`,
+    scroll: 'target'
   }));
 
 // highlight fragments checkbox enables or disables highlighting of
@@ -101,7 +102,7 @@ up.on('dateformat:changed', (event) => {
     }
 });
 
-// request html (otherwise chosen by random by server)
+// request html (otherwise chosen by random by server, especially where we also offer text/event-stream)
 up.on('up:request:load', function (event) {
     event.request.headers['Accept'] = 'text/html,*/*;q=0.8';
 });
