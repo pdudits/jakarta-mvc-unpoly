@@ -1,16 +1,6 @@
 # Unpoly Demo on Jakarta REST
 
-----
-Only At DEVOXX Belgium 2024:
-## Spot Prismo and Win a Giant Rubber Duck! 🎉
-Here’s how to join the fun:
-
-* Keep your eyes peeled for Prismo hidden in my slides 👀
-* Count how many times you see him throughout the presentation
-* Submit your guess by tomorrow morning for a chance to win: https://www.payara.fish/page/hide-n-seek-devoxx-be-2024/
-* Winner announced Wednesday at 9:15 at Payara Booth
-----
-
+Watch the talk at https://youtu.be/AtRmlpjGO8I?si=6NmvHhEDFtvDqExj
 ## Getting Started
 
 ### Prerequisites
