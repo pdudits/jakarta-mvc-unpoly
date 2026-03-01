@@ -49,12 +49,12 @@ public class CommentResource {
       @FormParam("author") String author,
       @FormParam("content") String content,
       @HeaderParam("X-Up-Target") String target) {
-    var comment = commentRepository.addEventComment(eventId, author, content);
+    var addCommentResult = commentRepository.addEventComment(eventId, author, content);
     if (target != null && target.contains(".comment-list")) {
       // we're appending to comment list, just generate single comment;
-      model.setComments(List.of(comment.comment()));
+      model.setComments(List.of(addCommentResult.comment()));
       var response = Response.ok("comment/list.jte");
-      if (comment.count() == 1) {
+      if (addCommentResult.totalComments() == 1) {
         // if this is the first comment we need to retarget, otherwise
         // we'll append to list saying "No Comments".
         response.header("X-Up-Target", "section .comment-list,.add-comment");

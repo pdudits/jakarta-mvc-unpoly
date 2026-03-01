@@ -37,6 +37,6 @@ public class CommentRepository {
     return new AddResult(count, comment);
   }
 
-  public record AddResult(int count, Comment comment) {
+  public record AddResult(int totalComments, Comment comment) {
   }
 }

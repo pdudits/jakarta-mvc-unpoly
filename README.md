@@ -14,7 +14,7 @@ To run the application locally, follow these steps:
 
 1. Open a terminal and navigate to the project's root directory.
 
-2. Make sure you have the appropriate Java version installed. We have tested with Java SE 8, Java SE 11, Java SE 17, and Java SE 21.
+2. Make sure you have the appropriate Java version installed. We have tested with Java SE 21.
 
 3. Execute the following command:
 

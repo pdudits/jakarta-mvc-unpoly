@@ -32,11 +32,11 @@ public class AppListModel {
   public record AppEntry(String name, URI uri, float memoryUtilization,
                          float cpuUtilization) {
     public String formattedMemoryUtilization() {
-      return "%.2f".formatted(memoryUtilization * 100);
+      return "%.0f%%".formatted(memoryUtilization * 100);
     }
 
     public String formattedCpuUtilization() {
-      return "%.2f".formatted(cpuUtilization * 100);
+      return "%.0f%%".formatted(cpuUtilization * 100);
     }
   }
 }

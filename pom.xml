@@ -14,7 +14,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>21</maven.compiler.release>
         <jakartaee-api.version>10.0.0</jakartaee-api.version>
-        <payara.version>6.2024.7</payara.version>
+        <payara.version>6.2024.11</payara.version>
     </properties>
 
     <dependencyManagement>
@@ -70,7 +70,7 @@
         <dependency>
             <groupId>org.webjars.npm</groupId>
             <artifactId>unpoly</artifactId>
-            <version>3.9.1</version>
+            <version>3.9.4</version>
         </dependency>
         <dependency>
             <groupId>org.webjars.npm</groupId>
