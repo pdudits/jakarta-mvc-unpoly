@@ -63,6 +63,13 @@
     <a href="/static/up-layer-2.html" class="instruction" style="right:-1.8em">?</a>
   </small>
 </footer>
+<div id="up-console">
+  <div class="up-console-toolbar">
+    <button class="up-console-toggle" aria-expanded="false"><span class="arrow">▲</span> HTTP Console</button>
+    <button class="up-console-clear" disabled>Clear</button>
+  </div>
+  <div class="up-console-log" role="log" aria-live="off"></div>
+</div>
 </div>
 <!-- hot reload - connect to sse endoint at / reload on event -->
 <script>

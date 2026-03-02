@@ -117,7 +117,89 @@ up.on('up:fragment:keep', 'bar-chart', (ev) => {
 });
 
 // macro compilers are executed before regular compilers, therefore we can put in
-// unpoly attributes to an element and have them processed by the regular compilers
+// unpoly attributes to an element and have them processed by the regular compilers
+up.compiler('#up-console', (element) => {
+    const toggle = element.querySelector('.up-console-toggle');
+    const clearBtn = element.querySelector('.up-console-clear');
+    const logEl = element.querySelector('.up-console-log');
+    const MAX_ENTRIES = 50;
+    let unbindRequest = null;
+    let unbindResponse = null;
+
+    function xUpHeaders(headers) {
+        return Object.entries(headers)
+            .filter(([k]) => k.toLowerCase().startsWith('x-up-'))
+            .map(([k, v]) => `<span class="up-header">  ${k}: </span>${up.util.escapeHTML(String(v))}`)
+            .join('\n');
+    }
+
+    function xUpResponseHeaders(response) {
+        const raw = response.xhr?.getAllResponseHeaders() || '';
+        return raw.split('\r\n')
+            .filter(line => line.toLowerCase().startsWith('x-up-'))
+            .map(line => {
+                const colon = line.indexOf(':');
+                const name = line.slice(0, colon).trim();
+                const value = line.slice(colon + 1).trim();
+                return `<span class="up-header">  ${name}: </span>${up.util.escapeHTML(value)}`;
+            })
+            .join('\n');
+    }
+
+    function appendEntry(html, type) {
+        const div = document.createElement('div');
+        div.className = `up-console-entry up-console-${type}`;
+        div.innerHTML = html;
+        logEl.appendChild(div);
+        // Trim oldest entries
+        while (logEl.children.length > MAX_ENTRIES) {
+            logEl.removeChild(logEl.firstElementChild);
+        }
+        logEl.scrollTop = logEl.scrollHeight;
+        clearBtn.disabled = false;
+    }
+
+    function onRequestLoad(event) {
+        const req = event.request;
+        const headers = xUpHeaders(req.headers);
+        const first = `▶ ${req.method.toUpperCase()} ${up.util.escapeHTML(req.url)}`;
+        appendEntry(headers ? `${first}\n${headers}` : first, 'request');
+    }
+
+    function onFragmentLoaded(event) {
+        const res = event.response;
+        const target = res.target || event.request?.target || '?';
+        const headers = xUpResponseHeaders(res);
+        const first = `◀ ${res.status}  ${up.util.escapeHTML(res.url)}  →  ${up.util.escapeHTML(String(target))}`;
+        appendEntry(headers ? `${first}\n${headers}` : first, 'response');
+    }
+
+    function open() {
+        element.classList.add('open');
+        toggle.setAttribute('aria-expanded', 'true');
+        unbindRequest = up.on('up:request:load', onRequestLoad);
+        unbindResponse = up.on('up:fragment:loaded', onFragmentLoaded);
+    }
+
+    function close() {
+        element.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+        if (unbindRequest) { unbindRequest(); unbindRequest = null; }
+        if (unbindResponse) { unbindResponse(); unbindResponse = null; }
+    }
+
+    toggle.addEventListener('click', () => {
+        element.classList.contains('open') ? close() : open();
+    });
+
+    clearBtn.addEventListener('click', () => {
+        logEl.innerHTML = '';
+        clearBtn.disabled = true;
+    });
+
+    return () => close();
+});
+
 up.macro('a.instruction', (element) => {
     element.setAttribute('up-layer', 'new');
     element.setAttribute('up-size', 'large');
