@@ -117,11 +117,13 @@ up.on('up:fragment:keep', 'bar-chart', (ev) => {
 });
 
 // macro compilers are executed before regular compilers, therefore we can put in
-// unpoly attributes to an element and have them processed by the regular compilers
+// unpoly attributes to an element and have them processed by the regular compilers
+
 up.compiler('#up-console', (element) => {
     const toggle = element.querySelector('.up-console-toggle');
     const clearBtn = element.querySelector('.up-console-clear');
     const logEl = element.querySelector('.up-console-log');
+    const filterEl = element.querySelector('.up-console-filter');
     const MAX_ENTRIES = 50;
     let unbindRequest = null;
     let unbindResponse = null;
@@ -155,14 +157,22 @@ up.compiler('#up-console', (element) => {
         while (logEl.children.length > MAX_ENTRIES) {
             logEl.removeChild(logEl.firstElementChild);
         }
-        logEl.scrollTop = logEl.scrollHeight;
+        logEl.scrollTo({ top: logEl.scrollHeight, behavior: 'smooth' });
         clearBtn.disabled = false;
+    }
+
+    function filtered(url) {
+        if (filterEl && filterEl.value) {
+            return url.indexOf(filterEl.value) < 0;
+        }
+        return false;
     }
 
     function onRequestLoad(event) {
         const req = event.request;
         const headers = xUpHeaders(req.headers);
         const first = `▶ ${req.method.toUpperCase()} ${up.util.escapeHTML(req.url)}`;
+        if (filtered(req.url)) return;
         appendEntry(headers ? `${first}\n${headers}` : first, 'request');
     }
 
@@ -171,6 +181,7 @@ up.compiler('#up-console', (element) => {
         const target = res.target || event.request?.target || '?';
         const headers = xUpResponseHeaders(res);
         const first = `◀ ${res.status}  ${up.util.escapeHTML(res.url)}  →  ${up.util.escapeHTML(String(target))}`;
+        if (filtered(res.url)) return;
         appendEntry(headers ? `${first}\n${headers}` : first, 'response');
     }
 

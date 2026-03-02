@@ -126,12 +126,19 @@ up-drawer-content .grid {
 }
 
 .up-console-toolbar {
+    --pico-spacing: 0.2em;
+    --pico-form-element-spacing-vertical: 0.1em;
+    --pico-form-element-spacing-horizontal: 0.2em;
     display: flex;
     align-items: center;
-    gap: calc(var(--pico-spacing) * 0.5);
-    padding: calc(var(--pico-spacing) * 0.2) calc(var(--pico-spacing) * 0.5);
+    gap: var(--pico-spacing);
+    padding: var(--pico-spacing);
     background-color: color-mix(in oklab, var(--pico-contrast-background) 80%, black);
     border-bottom: var(--pico-border-width) solid var(--pico-contrast-border);
+}
+
+.up-console-toolbar > input {
+    opacity: 0.8;
 }
 
 .up-console-toggle,
@@ -175,7 +182,7 @@ up-drawer-content .grid {
 
 #up-console.open .up-console-log {
     min-height: 2em;
-    max-height: 40vw;
+    max-height: 25vw;
 }
 
 .up-console-entry {
@@ -184,6 +191,12 @@ up-drawer-content .grid {
     border-bottom: var(--pico-border-width) solid
         color-mix(in oklab, var(--pico-contrast-background) 70%, black);
     line-height: 1.5;
+    animation: up-console-entry-flash 1s ease-out;
+}
+
+@keyframes up-console-entry-flash {
+    0%   { background-color: color-mix(in oklab, var(--pico-contrast-background) 40%, white); }
+    100% { background-color: transparent; }
 }
 
 /* Request: primary color, lightened for legibility on dark background */

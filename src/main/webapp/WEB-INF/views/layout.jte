@@ -67,6 +67,7 @@
   <div class="up-console-toolbar">
     <button class="up-console-toggle" aria-expanded="false"><span class="arrow">▲</span> HTTP Console</button>
     <button class="up-console-clear" disabled>Clear</button>
+    <input type="text" class="up-console-filter" placeholder="Filter">
   </div>
   <div class="up-console-log" role="log" aria-live="off"></div>
 </div>
