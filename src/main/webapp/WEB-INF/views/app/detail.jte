@@ -13,7 +13,7 @@
   <!-- using relative path cause problem when we redirect. -->
   <div id="chart-container" up-defer up-href="/app/${app.getName()}/charts" up-revalidate="true">
   <div class="chart-box" >
-    <div aria-busy="true"></div>
+    <div aria-busy="true"><a href="/app/${app.getName()}/charts" up-target="#chart-container">Loading charts</a></div>
     <div aria-busy="true"></div>
     <div aria-busy="true"></div>
   </div>

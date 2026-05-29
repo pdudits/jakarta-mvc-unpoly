@@ -178,6 +178,8 @@ public class AppResource {
       if (jakartaVersion != null) {
         FormField.parse(javaVersion, model::setJavaVersion,
             jakartaVersion::checkJavaVersion);
+        var jdkVersion = FormField.parse(this.javaVersion, model::setJavaVersion,
+                check(jakartaVersion::checkJavaVersion));
       }
 
       var scalabilityType = validateScalingType(model);
@@ -192,7 +194,7 @@ public class AppResource {
       var size = FormField.parse(runtimeSize, app::setRuntimeSize,
           require("Runtime size is required", RuntimeSize::fromString)
               .andThen(check(scalabilityType.getSupportedSizes()::contains,
-                  v -> "Unsupported size for %s. Supported sizes are:".formatted(
+                  v -> "Unsupported size for %s. Supported sizes are: %s".formatted(
                       scalabilityType, scalabilityType.getSupportedSizes()))));
       if (scalabilityType.hasDatagrid()) {
         FormField.parse(datagrid, app::setDatagrid,
